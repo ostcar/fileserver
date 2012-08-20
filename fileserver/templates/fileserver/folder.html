@@ -1,0 +1,28 @@
+{% extends 'page.html' %}
+{% load i18n %}
+{% block content %}
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Size</th>
+  </tr>
+  {% if back_url %}
+  <tr>
+    <td><a href="{{ back_url }}">{% trans 'back' %}</a></td>
+  </tr>
+  {% endif %}
+  {% for subfolder, url, items in folder.iter_subfolders %}
+  <tr>
+    <td><a href="{{ url }}">{{ subfolder }}</a></td>
+    <td>{{ items }}</td>
+  </tr>
+  {% endfor %}
+  {% for file, file_url, size in folder.iter_files %}
+  <tr>
+    <td><a href="{{ file_url }}">{{ file }}</a></td>
+    <td>{{ size }}</td>
+  </tr>
+  {% endfor %}
+</table>
+{{ folder. }}
+{% endblock content %}
