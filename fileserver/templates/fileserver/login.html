@@ -1,0 +1,11 @@
+{% extends 'page.html' %}
+{% load i18n %}
+{% block content %}
+<form action="" method="post">
+    {% csrf_token %}
+    {{ form }}
+    <div class="form-actions">
+      <button class="btn btn-primary" type="submit">{% trans 'Log me in' %}</button>
+    </div>
+</form>
+{% endblock content %}

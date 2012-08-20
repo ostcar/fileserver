@@ -12,9 +12,16 @@
     <div class="navbar">
       <div class="navbar-inner">
         <div>
-          <a class="brand" href="">Fileserver</a>
+          <a class="brand" href="{% url 'fileserver_frontpage' %}">Fileserver</a>
           <ul class="nav">
             <li><a href="{% url 'fileserver_folder' '' %}"> {% trans 'Index' %}</a></li>
+          </ul>
+          <ul class="nav pull-right">
+          {% if not loged_in %}
+            <li><a href="{% url 'fileserver_login' %}"><i class="icon-signin"></i> {% trans 'Login' %}</a></li>
+          {% else %}
+            <li><a href=""><i class="icon-signout"></i>{% trans 'Logout' %}</a></li>
+          {% endif %}
           </ul>
         </div>
       </div>
