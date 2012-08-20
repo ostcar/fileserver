@@ -12,6 +12,8 @@ class Folder(object):
 
     def iter_subfolders(self):
         for subfolder in self.subfolders:
+            if subfolder.startswith('.'):
+                continue
             subsubfolders, subfiles = default_storage.listdir(
                 os.path.join(self.path, subfolder))
             item_count = len(subsubfolders) + len(subfiles)
@@ -21,6 +23,8 @@ class Folder(object):
 
     def iter_files(self):
         for file in self.files:
+            if file.startswith('.'):
+                continue
             path_to_file = os.path.join(self.path, file)
             size = default_storage.size(path_to_file)
             file_url = default_storage.url(path_to_file)
