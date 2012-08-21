@@ -15,7 +15,7 @@ LOGIN_REDIRECT_URL = '/'
 
 LOGIN_PASSWORD = ''
 
-SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
+SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
 
 INTERNAL_IPS = ('127.0.0.1',)
 
