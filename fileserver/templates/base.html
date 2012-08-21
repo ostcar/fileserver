@@ -18,6 +18,7 @@
             <li><a href="{% url 'fileserver_directory' directory %}">{{ name }}</a></li>
             {% endfor %}
             <li><a href="{% url 'fileserver_upload' full_path %}"> {% trans 'Upload' %}</a></li>
+            <li><a href="{% url 'fileserver_mkdir' full_path %}"> {% trans 'Create Directory' %}</a></li>
           </ul>
           {% if need_password %}
           <ul class="nav pull-right">
