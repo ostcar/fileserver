@@ -14,7 +14,11 @@ from .utils.views import LogedInMixin, SetPathMixin
 from .forms import LoginForm, UploadForm
 
 
-frontpage = TemplateView.as_view(template_name='fileserver/frontpage.html')
+class FrontpageView(SetPathMixin, TemplateView):
+    template_name = 'fileserver/frontpage.html'
+
+
+frontpage = FrontpageView.as_view()
 
 
 class LoginView(FormView):

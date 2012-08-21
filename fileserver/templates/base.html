@@ -17,7 +17,7 @@
             {% for directory, name in path %}
             <li><a href="{% url 'fileserver_folder' directory %}">{{ name }}</a></li>
             {% endfor %}
-            <li><a href="{% url 'fileserver_upload' path %}"> {% trans 'Upload' %}</a></li>
+            <li><a href="{% url 'fileserver_upload' full_path %}"> {% trans 'Upload' %}</a></li>
           </ul>
           <ul class="nav pull-right">
           {% if not loged_in %}

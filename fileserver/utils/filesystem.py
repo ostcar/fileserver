@@ -35,5 +35,6 @@ class Folder(object):
 
 
 def save_file(path, file):
+    # TODO normalize filename
     name = os.path.join(path, file.name)
     default_storage.save(name, file)

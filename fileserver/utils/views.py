@@ -25,13 +25,12 @@ class LogedInMixin(object):
 class SetPathMixin(object):
     def get_context_data(self, **kwargs):
         context = super(SetPathMixin, self).get_context_data(**kwargs)
-        path = os.path.normpath(self.kwargs['path'])
+        path = os.path.normpath(self.kwargs.get('path', ''))
         context['path'] = [('', 'index')]
-        print path, path.split('/')
         for directory in path.split('/'):
             if not directory or directory == '.':
                 continue
             name = os.path.basename(directory)
             context['path'].append((directory, name))
-        print context['path']
+        context['full_path'] = path
         return context
