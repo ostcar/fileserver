@@ -121,7 +121,7 @@ class TodoView(LogedInMixin, FormView):
 
     def form_valid(self, form):
         todo = default_storage.open('todo.txt', 'w')
-        todo.write(form.cleaned_data['todo'])
+        todo.write(form.cleaned_data['todo'].encode('utf-8'))
         todo.close()
         return super(TodoView, self).form_valid(form)
 
