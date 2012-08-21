@@ -4,7 +4,7 @@ from django.conf import settings
 from django.core.files.storage import default_storage
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.utils.translation import ugettext as _
-from django.views.generic.base import TemplateView, View
+from django.views.generic.base import TemplateView, View, RedirectView
 from django.views.generic.edit import FormView
 from django.http import HttpResponse
 from django.core.servers.basehttp import FileWrapper
@@ -39,6 +39,17 @@ class LoginView(FormView):
 
 
 login = LoginView.as_view()
+
+
+class LogoutView(RedirectView):
+    url = reverse_lazy('fileserver_frontpage')
+
+    def get(self, request, *args, **kwargs):
+        request.session.flush()
+        return super(LogoutView, self).get(request, *args, **kwargs)
+
+
+logout = LogoutView.as_view()
 
 
 class FolderView(SetPathMixin, LogedInMixin, TemplateView):

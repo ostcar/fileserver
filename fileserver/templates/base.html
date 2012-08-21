@@ -19,13 +19,15 @@
             {% endfor %}
             <li><a href="{% url 'fileserver_upload' full_path %}"> {% trans 'Upload' %}</a></li>
           </ul>
+          {% if need_password %}
           <ul class="nav pull-right">
           {% if not loged_in %}
             <li><a href="{% url 'fileserver_login' %}"><i class="icon-signin"></i> {% trans 'Login' %}</a></li>
           {% else %}
-            <li><a href=""><i class="icon-signout"></i>{% trans 'Logout' %}</a></li>
+            <li><a href="{% url 'fileserver_logout' %}"><i class="icon-signout"></i>{% trans 'Logout' %}</a></li>
           {% endif %}
           </ul>
+          {% endif %}
         </div>
       </div>
     </div>
