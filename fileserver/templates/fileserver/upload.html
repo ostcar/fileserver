@@ -2,10 +2,24 @@
 {% load i18n %}
 {% block content %}
 <form enctype="multipart/form-data" action="" method="post">
-    {% csrf_token %}
-    {{ form }}
-    <div class="form-actions">
-      <button class="btn btn-primary" type="submit">{% trans 'Upload' %}</button>
-    </div>
+  {% csrf_token %}
+  {{ formset.management_form }}
+  {% for form in formset %}
+    {{ form.as_p }}
+  {% endfor %}
+
+  <div class="form-actions">
+    <button class="btn btn-primary" type="submit">{% trans 'Upload' %}</button>
+    <a id="add_more" class="btn">+</a>
+  </div>
 </form>
 {% endblock content %}
+
+{% block scripts %}
+{{ block.super }}
+<script type="text/javascript">
+  $('#add_more').click(function () {
+    cloneMore('form p:last', 'form');
+  });
+</script>
+{% endblock scripts %}
