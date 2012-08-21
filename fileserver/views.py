@@ -118,7 +118,7 @@ upload = UploadView.as_view()
 class UpdateDirectoryView(SetPathMixin, LogedInMixin, FormSetView):
     form_class = UpdateDirectoryForm
     template_name = 'fileserver/update_directory.html'
-    can_delete = False # TODO: let the user delete the files
+    can_delete = True
     extra = 0
 
     def get_initial(self):
@@ -138,9 +138,13 @@ class UpdateDirectoryView(SetPathMixin, LogedInMixin, FormSetView):
         path = self.get_path()
         for form in formset:
             old_path = os.path.join(path, form.cleaned_data['old_name'])
-            new_path = os.path.join(path, form.cleaned_data['new_name'])
-            if old_path != new_path:
-                default_storage.mv(old_path, new_path)
+            if form.cleaned_data['DELETE']:
+                default_storage.delete(old_path)
+            else:
+                old_path = os.path.join(path, form.cleaned_data['old_name'])
+                new_path = os.path.join(path, form.cleaned_data['new_name'])
+                if old_path != new_path:
+                    default_storage.mv(old_path, new_path)
         return super(UpdateDirectoryView, self).formset_valid(formset)
 
 

@@ -24,6 +24,12 @@ class FileServerStorage(FileSystemStorage):
         new_path = self.get_available_name(new_path)
         os.rename(self.path(old_path), self.path(new_path))
 
+    def delete(self, name):
+        if os.path.isdir(self.path(name)):
+            os.rmdir(self.path(name))
+        else:
+            os.remove(name)
+
 
 class Directory(object):
     def __init__(self, path):
