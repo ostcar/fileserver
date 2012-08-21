@@ -28,7 +28,7 @@ class Directory(object):
             path_to_file = os.path.join(self.path, file)
             size = default_storage.size(path_to_file)
             file_url = default_storage.url(path_to_file)
-            yield (file, file_url, size)
+            yield (file, file_url, human_readable_size(size))
 
     def __repr__(self):
         return unicode(self.path)
@@ -38,3 +38,11 @@ def save_file(path, file):
     # TODO normalize filename
     name = os.path.join(path, file.name)
     default_storage.save(name, file)
+
+
+# from http://stackoverflow.com/a/1094933
+def human_readable_size(num):
+    for x in ['bytes','KB','MB','GB','TB']:
+        if num < 1024.0:
+            return "%3.1f%s" % (num, x)
+        num /= 1024.0
