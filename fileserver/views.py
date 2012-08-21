@@ -11,7 +11,7 @@ from django.core.servers.basehttp import FileWrapper
 
 from extra_views import FormSetView
 
-from .utils.filesystem import Directory, save_file
+from .utils.filesystem import Directory, save_file, guess_type
 from .utils.views import LogedInMixin, SetPathMixin
 from .forms import LoginForm, UploadForm
 
@@ -68,13 +68,13 @@ class DirectoryView(SetPathMixin, LogedInMixin, TemplateView):
 serve_directory = DirectoryView.as_view()
 
 
-class DownloadView(LogedInMixin, View):
+class DownloadView(SetPathMixin, LogedInMixin, View):
     def get(self, request, *args, **kwargs):
-        requested_file = default_storage.open(kwargs['path'])
-        filename = os.path.basename(kwargs['path'])
+        path = self.get_path()
+        requested_file = default_storage.open(path)
         # TODO: Get content_type and filename
-        response = HttpResponse(FileWrapper(requested_file), content_type='application/text')
-        response['Content-Disposition'] = 'attachment; %s' % filename
+        response = HttpResponse(FileWrapper(requested_file),
+                                content_type=guess_type(path))
         return response
 
 

@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import os
 import urlparse
+import urllib
 
 from django.conf import settings
 from django.core.urlresolvers import reverse
@@ -23,9 +24,12 @@ class LogedInMixin(object):
 
 
 class SetPathMixin(object):
+    def get_path(self):
+        return os.path.normpath(urllib.unquote(self.kwargs.get('path', '')))
+
     def get_context_data(self, **kwargs):
         context = super(SetPathMixin, self).get_context_data(**kwargs)
-        path = os.path.normpath(self.kwargs.get('path', ''))
+        path = self.get_path()
         context['path'] = [('', 'index')]
         for directory in path.split('/'):
             if not directory or directory == '.':
