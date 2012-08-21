@@ -20,6 +20,10 @@ class FileServerStorage(FileSystemStorage):
     def mkdir(self, path):
         os.mkdir(self.path(path))
 
+    def mv(self, old_path, new_path):
+        new_path = self.get_available_name(new_path)
+        os.rename(self.path(old_path), self.path(new_path))
+
 
 class Directory(object):
     def __init__(self, path):

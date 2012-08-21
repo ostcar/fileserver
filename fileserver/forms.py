@@ -26,3 +26,8 @@ class CreateSubdirectoryForm(forms.Form):
 
 class TodoForm(forms.Form):
     todo = forms.fields.CharField(widget=forms.Textarea, required=False)
+
+
+class UpdateDirectoryForm(forms.Form):
+    old_name = forms.fields.CharField(widget=forms.HiddenInput)
+    new_name = forms.fields.CharField()

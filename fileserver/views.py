@@ -13,7 +13,8 @@ from extra_views import FormSetView
 
 from .utils.filesystem import Directory, save_file, guess_type
 from .utils.views import LogedInMixin, SetPathMixin
-from .forms import LoginForm, UploadForm, CreateSubdirectoryForm, TodoForm
+from .forms import (LoginForm, UploadForm, CreateSubdirectoryForm, TodoForm,
+    UpdateDirectoryForm)
 
 
 class FrontpageView(SetPathMixin, TemplateView):
@@ -102,7 +103,7 @@ class UploadView(SetPathMixin, LogedInMixin, FormSetView):
     template_name = 'fileserver/upload.html'
 
     def get_success_url(self):
-        return reverse('fileserver_directory', args=[self.kwargs['path']])
+        return reverse('fileserver_directory', args=[self.get_path()])
 
     def formset_valid(self, formset):
         for form in formset:
@@ -112,6 +113,38 @@ class UploadView(SetPathMixin, LogedInMixin, FormSetView):
 
 
 upload = UploadView.as_view()
+
+
+class UpdateDirectoryView(SetPathMixin, LogedInMixin, FormSetView):
+    form_class = UpdateDirectoryForm
+    template_name = 'fileserver/update_directory.html'
+    can_delete = False # TODO: let the user delete the files
+    extra = 0
+
+    def get_initial(self):
+        directory = Directory(self.get_path())
+        initial = []
+        for name, url, item_count in directory.iter_subdirectories():
+            initial.append({'old_name': name, 'new_name': name})
+
+        for name, url, size in directory.iter_files():
+            initial.append({'old_name': name, 'new_name': name})
+        return initial
+
+    def get_success_url(self):
+        return reverse('fileserver_directory', args=[self.get_path()])
+
+    def formset_valid(self, formset):
+        path = self.get_path()
+        for form in formset:
+            old_path = os.path.join(path, form.cleaned_data['old_name'])
+            new_path = os.path.join(path, form.cleaned_data['new_name'])
+            if old_path != new_path:
+                default_storage.mv(old_path, new_path)
+        return super(UpdateDirectoryView, self).formset_valid(formset)
+
+
+edit_directory = UpdateDirectoryView.as_view()
 
 
 class TodoView(LogedInMixin, FormView):
