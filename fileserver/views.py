@@ -9,9 +9,9 @@ from django.views.generic.edit import FormView
 from django.http import HttpResponse
 from django.core.servers.basehttp import FileWrapper
 
-from .utils.filesystem import Folder
-from .utils.views import LogedInMixin
-from .forms import LoginForm
+from .utils.filesystem import Folder, save_file
+from .utils.views import LogedInMixin, SetPathMixin
+from .forms import LoginForm, UploadForm
 
 
 frontpage = TemplateView.as_view(template_name='fileserver/frontpage.html')
@@ -35,7 +35,7 @@ class LoginView(FormView):
 login = LoginView.as_view()
 
 
-class FolderView(LogedInMixin, TemplateView):
+class FolderView(SetPathMixin, LogedInMixin, TemplateView):
     template_name = 'fileserver/folder.html'
 
     def get_context_data(self, **kwargs):
@@ -60,4 +60,20 @@ class DownloadView(LogedInMixin, View):
         response['Content-Disposition'] = 'attachment; %s' % filename
         return response
 
+
 download = DownloadView.as_view()
+
+
+class UploadView(SetPathMixin, LogedInMixin, FormView):
+    form_class = UploadForm
+    template_name = 'fileserver/upload.html'
+
+    def get_success_url(self):
+        return reverse('fileserver_folder', args=[self.kwargs['path']])
+
+    def form_valid(self, form):
+        save_file(self.kwargs['path'], self.request.FILES['file'])
+        return super(UploadView, self).form_valid(form)
+
+
+upload = UploadView.as_view()

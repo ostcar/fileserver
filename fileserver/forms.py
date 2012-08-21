@@ -4,6 +4,7 @@ from django.core.exceptions import ValidationError
 from django.conf import settings
 from django.utils.translation import ugettext_lazy, ugettext as _
 
+
 class LoginForm(forms.Form):
     password = forms.fields.CharField(widget=forms.PasswordInput)
 
@@ -13,3 +14,7 @@ class LoginForm(forms.Form):
             return data
         else:
             raise ValidationError(_('Wrong password'))
+
+
+class UploadForm(forms.Form):
+    file = forms.fields.FileField()

@@ -32,3 +32,8 @@ class Folder(object):
 
     def __repr__(self):
         return unicode(self.path)
+
+
+def save_file(path, file):
+    name = os.path.join(path, file.name)
+    default_storage.save(name, file)

@@ -1,0 +1,11 @@
+{% extends 'page.html' %}
+{% load i18n %}
+{% block content %}
+<form enctype="multipart/form-data" action="" method="post">
+    {% csrf_token %}
+    {{ form }}
+    <div class="form-actions">
+      <button class="btn btn-primary" type="submit">{% trans 'Upload' %}</button>
+    </div>
+</form>
+{% endblock content %}

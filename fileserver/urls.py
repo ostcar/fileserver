@@ -5,4 +5,5 @@ urlpatterns = patterns('fileserver.views',
     url(r'^login$', 'login', name='fileserver_login'),
     url(r'^index/(?P<path>.*)', 'serve_folder', name='fileserver_folder'),
     url(r'^download/(?P<path>.*)', 'download', name='fileserver_download'),
+    url(r'^upload/(?P<path>.*)', 'upload', name='fileserver_upload'),
 )

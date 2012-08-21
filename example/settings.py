@@ -15,7 +15,7 @@ MANAGERS = ADMINS
 
 LOGIN_REDIRECT_URL = ''
 
-LOGIN_PASSWORD = 'PASSWORD'
+LOGIN_PASSWORD = ''
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
 
