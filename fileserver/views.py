@@ -13,7 +13,7 @@ from extra_views import FormSetView
 
 from .utils.filesystem import Directory, save_file, guess_type
 from .utils.views import LogedInMixin, SetPathMixin
-from .forms import LoginForm, UploadForm
+from .forms import LoginForm, UploadForm, CreateSubdirectoryForm
 
 
 class FrontpageView(SetPathMixin, TemplateView):
@@ -66,6 +66,22 @@ class DirectoryView(SetPathMixin, LogedInMixin, TemplateView):
 
 
 serve_directory = DirectoryView.as_view()
+
+
+class CreateSubdirectoryView(SetPathMixin, LogedInMixin, FormView):
+    template_name = 'fileserver/create_subdirectory.html'
+    form_class = CreateSubdirectoryForm
+
+    def form_valid(self, form):
+        new_dir = form.cleaned_data['name']
+        default_storage.mkdir(os.path.join(self.get_path(), new_dir))
+        return super(CreateSubdirectoryView, self).form_valid(form)
+
+    def get_success_url(self):
+        return reverse('fileserver_directory', args=[self.get_path()])
+
+
+mkdir = CreateSubdirectoryView.as_view()
 
 
 class DownloadView(SetPathMixin, LogedInMixin, View):

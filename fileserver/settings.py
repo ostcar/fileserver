@@ -17,6 +17,8 @@ LOGIN_PASSWORD = ''
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
 
+DEFAULT_FILE_STORAGE = 'fileserver.utils.filesystem.FileServerStorage'
+
 INTERNAL_IPS = ('127.0.0.1',)
 
 # Local time zone for this installation. Choices can be found here:

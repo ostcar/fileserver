@@ -4,6 +4,8 @@ import urllib
 import mimetypes
 
 from django.core.files.storage import default_storage
+from django.core.files.storage import FileSystemStorage
+
 from django.core.urlresolvers import reverse
 
 extensions_map = mimetypes.types_map.copy()
@@ -12,6 +14,11 @@ extensions_map.update({
     '.py': 'text/plain',
     '.c': 'text/plain',
     '.h': 'text/plain'})
+
+
+class FileServerStorage(FileSystemStorage):
+    def mkdir(self, path):
+        os.mkdir(self.path(path))
 
 
 class Directory(object):

@@ -18,3 +18,7 @@ class LoginForm(forms.Form):
 
 class UploadForm(forms.Form):
     file = forms.fields.FileField()
+
+
+class CreateSubdirectoryForm(forms.Form):
+    name = forms.fields.CharField()
