@@ -13,7 +13,7 @@ from extra_views import FormSetView
 
 from .utils.filesystem import Directory, save_file, guess_type
 from .utils.views import LogedInMixin, SetPathMixin
-from .forms import LoginForm, UploadForm, CreateSubdirectoryForm
+from .forms import LoginForm, UploadForm, CreateSubdirectoryForm, TodoForm
 
 
 class FrontpageView(SetPathMixin, TemplateView):
@@ -112,3 +112,25 @@ class UploadView(SetPathMixin, LogedInMixin, FormSetView):
 
 
 upload = UploadView.as_view()
+
+
+class TodoView(LogedInMixin, FormView):
+    form_class = TodoForm
+    success_url = reverse_lazy('fileserver_todo')
+    template_name = 'fileserver/todo.html'
+
+    def form_valid(self, form):
+        todo = default_storage.open('todo.txt', 'w')
+        todo.write(form.cleaned_data['todo'])
+        todo.close()
+        return super(TodoView, self).form_valid(form)
+
+    def get_initial(self):
+        if default_storage.exists('todo.txt'):
+            todo = default_storage.open('todo.txt')
+            return {'todo': "".join(todo.readlines())}
+        else:
+            return {}
+
+
+todo = TodoView.as_view()

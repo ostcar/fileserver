@@ -8,4 +8,5 @@ urlpatterns = patterns('fileserver.views',
     url(r'^mkdir/(?P<path>.*)', 'mkdir', name='fileserver_mkdir'),
     url(r'^download/(?P<path>.*)', 'download', name='fileserver_download'),
     url(r'^upload/(?P<path>.*)', 'upload', name='fileserver_upload'),
+    url(r'^todo/$', 'todo', name='fileserver_todo'),
 )

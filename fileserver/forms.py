@@ -22,3 +22,7 @@ class UploadForm(forms.Form):
 
 class CreateSubdirectoryForm(forms.Form):
     name = forms.fields.CharField()
+
+
+class TodoForm(forms.Form):
+    todo = forms.fields.CharField(widget=forms.Textarea, required=False)
