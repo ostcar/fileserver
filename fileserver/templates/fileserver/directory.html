@@ -11,18 +11,17 @@
     <td><a href="{{ back_url }}">{% trans 'back' %}</a></td>
   </tr>
   {% endif %}
-  {% for subfolder, url, items in folder.iter_subfolders %}
+  {% for subdirectory, url, items in directory.iter_subdirectories %}
   <tr>
-    <td><a href="{{ url }}">{{ subfolder }}</a></td>
+    <td><a href="{{ url }}">{{ subdirectory }}</a></td>
     <td>{{ items }}</td>
   </tr>
   {% endfor %}
-  {% for file, file_url, size in folder.iter_files %}
+  {% for file, file_url, size in directory.iter_files %}
   <tr>
     <td><a href="{{ file_url }}">{{ file }}</a></td>
     <td>{{ size }}</td>
   </tr>
   {% endfor %}
 </table>
-{{ folder. }}
 {% endblock content %}

@@ -15,7 +15,7 @@
           <a class="brand" href="{% url 'fileserver_frontpage' %}">Fileserver</a>
           <ul class="nav">
             {% for directory, name in path %}
-            <li><a href="{% url 'fileserver_folder' directory %}">{{ name }}</a></li>
+            <li><a href="{% url 'fileserver_directory' directory %}">{{ name }}</a></li>
             {% endfor %}
             <li><a href="{% url 'fileserver_upload' full_path %}"> {% trans 'Upload' %}</a></li>
           </ul>

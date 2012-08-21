@@ -11,7 +11,7 @@ from django.core.servers.basehttp import FileWrapper
 
 from extra_views import FormSetView
 
-from .utils.filesystem import Folder, save_file
+from .utils.filesystem import Directory, save_file
 from .utils.views import LogedInMixin, SetPathMixin
 from .forms import LoginForm, UploadForm
 
@@ -52,20 +52,20 @@ class LogoutView(RedirectView):
 logout = LogoutView.as_view()
 
 
-class FolderView(SetPathMixin, LogedInMixin, TemplateView):
-    template_name = 'fileserver/folder.html'
+class DirectoryView(SetPathMixin, LogedInMixin, TemplateView):
+    template_name = 'fileserver/directory.html'
 
     def get_context_data(self, **kwargs):
-        context = super(FolderView, self).get_context_data(**kwargs)
+        context = super(DirectoryView, self).get_context_data(**kwargs)
         path = kwargs.pop('path')
-        context['folder'] = Folder(path)
+        context['directory'] = Directory(path)
         if path:
-            context['back_url'] = reverse('fileserver_folder', args=[
+            context['back_url'] = reverse('fileserver_directory', args=[
                 os.path.join(path, '..')])
         return context
 
 
-serve_folder = FolderView.as_view()
+serve_directory = DirectoryView.as_view()
 
 
 class DownloadView(LogedInMixin, View):
@@ -86,7 +86,7 @@ class UploadView(SetPathMixin, LogedInMixin, FormSetView):
     template_name = 'fileserver/upload.html'
 
     def get_success_url(self):
-        return reverse('fileserver_folder', args=[self.kwargs['path']])
+        return reverse('fileserver_directory', args=[self.kwargs['path']])
 
     def formset_valid(self, formset):
         for form in formset:
