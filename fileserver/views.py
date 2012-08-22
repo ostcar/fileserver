@@ -94,6 +94,7 @@ class DownloadView(SetPathMixin, LogedInMixin, View):
         response = HttpResponse(FileWrapper(requested_file),
                                 content_type=guess_type(path))
         response['Content-Disposition'] = 'attachment'
+        response['Content-Length'] = default_storage.size(path)
         return response
 
 
@@ -113,9 +114,13 @@ class ZipDirectoryView(SetPathMixin, LogedInMixin, View):
         archiv = StringIO()
         default_storage.zipdir(path, archiv, include_hidden=False)
         archiv.seek(0)
+        archiv.seek(0, os.SEEK_END)
+        file_size = archiv.tell()
+        archiv.seek(0)
         response = HttpResponse(FileWrapper(archiv),
                                 content_type='application/x-zip-compressed')
         response['Content-Disposition'] = 'attachment; filename=%s' % filename
+        response['Content-Length'] = file_size
         return response
 
 
