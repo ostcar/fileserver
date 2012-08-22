@@ -11,6 +11,7 @@ from django.http import HttpResponseRedirect, QueryDict
 class LogedInMixin(object):
     def dispatch(self, request, *args, **kwargs):
         if not settings.LOGIN_PASSWORD or request.session.get('loged_in', False):
+            request.session.modified = True
             return super(LogedInMixin, self).dispatch(request, *args, **kwargs)
         else:
             next = request.get_full_path()
