@@ -44,4 +44,9 @@ class TestFileserverViews(SimpleTestCase):
         self.assertTrue(default_storage.exists('test'))
         default_storage.delete('test')
 
+    def test_download(self):
+        response = self.c.get('/download/test_file1.txt')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.content, 'The first test file.\n')
+
 
