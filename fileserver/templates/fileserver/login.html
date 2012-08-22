@@ -1,5 +1,8 @@
 {% extends 'page.html' %}
 {% load i18n %}
+
+{% block headline %}{% trans 'login' %}{% endblock %}
+
 {% block content %}
 <form action="" method="post">
     {% csrf_token %}
