@@ -31,7 +31,7 @@ class SetPathMixin(object):
         context = super(SetPathMixin, self).get_context_data(**kwargs)
         path = self.get_path()
         context['path'] = [('', 'index')]
-        for directory in path.split('/'):
+        for directory in path.split(os.sep):
             if not directory or directory == '.':
                 continue
             name = os.path.basename(directory)

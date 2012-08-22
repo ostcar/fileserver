@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
 import os
+from StringIO import StringIO
+from wsgiref.util import FileWrapper
+
 from django.conf import settings
 from django.core.files.storage import default_storage
 from django.core.urlresolvers import reverse, reverse_lazy
@@ -7,7 +10,6 @@ from django.utils.translation import ugettext as _
 from django.views.generic.base import TemplateView, View, RedirectView
 from django.views.generic.edit import FormView
 from django.http import HttpResponse
-from django.core.servers.basehttp import FileWrapper
 
 from extra_views import FormSetView
 
@@ -89,13 +91,30 @@ class DownloadView(SetPathMixin, LogedInMixin, View):
     def get(self, request, *args, **kwargs):
         path = self.get_path()
         requested_file = default_storage.open(path)
-        # TODO: Get content_type and filename
         response = HttpResponse(FileWrapper(requested_file),
                                 content_type=guess_type(path))
         return response
 
 
 download = DownloadView.as_view()
+
+
+class ZipDirectoryView(SetPathMixin, LogedInMixin, View):
+    def get(self, request, *args, **kwargs):
+        path = self.get_path()
+        dir_name = path.split(os.sep)[-1]
+        if dir_name == '.':
+            dir_name = 'index'
+        archiv = StringIO()
+        default_storage.zipdir(path, archiv, include_hidden=False)
+        archiv.seek(0)
+        response = HttpResponse(FileWrapper(archiv),
+                                content_type='application/x-zip-compressed')
+        response['Content-Disposition'] = 'attachment; filename=%s.zip' % dir_name
+        return response
+
+
+zip_directory = ZipDirectoryView.as_view()
 
 
 class UploadView(SetPathMixin, LogedInMixin, FormSetView):

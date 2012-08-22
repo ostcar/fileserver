@@ -2,6 +2,8 @@
 import os
 import urllib
 import mimetypes
+from zipfile import ZipFile, ZIP_DEFLATED
+from contextlib import closing
 
 from django.core.files.storage import default_storage
 from django.core.files.storage import FileSystemStorage
@@ -29,6 +31,19 @@ class FileServerStorage(FileSystemStorage):
             os.rmdir(self.path(name))
         else:
             os.remove(name)
+
+    # From http://stackoverflow.com/a/296722
+    def zipdir(self, basedir, archivename, include_hidden=False):
+        path = self.path(basedir)
+        assert os.path.isdir(path)
+        with closing(ZipFile(archivename, "w", ZIP_DEFLATED)) as archiv:
+            for root, dirs, files in os.walk(path):
+                for file in files:
+                    if include_hidden or not file.startswith('.'):
+                        abs_path = os.path.join(root, file)
+                        relative_path = abs_path[len(path) + len(os.sep):]
+                        print abs_path, relative_path
+                        archiv.write(abs_path, relative_path)
 
 
 class Directory(object):
