@@ -62,7 +62,22 @@ class DirectoryView(SetPathMixin, LogedInMixin, TemplateView):
     def get_context_data(self, **kwargs):
         context = super(DirectoryView, self).get_context_data(**kwargs)
         path = self.get_path()
-        context['directory'] = Directory(path)
+        sort = self.request.GET.get('sort', self.request.session.get('sort', 'name'))
+        reverse = self.request.GET.get(
+            'reverse', self.request.session.get('reverse', False))
+        if reverse == 'false' or reverse == '0':
+            reverse = False
+        else:
+            reverse = bool(reverse)
+        self.request.session['sort'] = sort
+        self.request.session['reverse'] = reverse
+        context['directory'] = Directory(path, sort=sort, reverse=reverse)
+
+        reverse = 'false' if reverse else 'true'
+        context['name_url'] = "?sort=name"
+        context['size_url'] = "?sort=size"
+        key = {'name': 'name_url', 'size': 'size_url'}[sort]
+        context[key] += "&reverse=%s" % reverse
         return context
 
 
@@ -196,3 +211,4 @@ class TodoView(LogedInMixin, FormView):
 
 
 todo = TodoView.as_view()
+

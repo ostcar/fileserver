@@ -46,27 +46,42 @@ class FileServerStorage(FileSystemStorage):
 
 
 class Directory(object):
-    def __init__(self, path):
+    def __init__(self, path, sort='size', reverse=False):
         self.path = path
-        self.subdirectories, self.files = default_storage.listdir(path)
+        subdirectories, files = default_storage.listdir(path)
 
-    def iter_subdirectories(self):
-        for subdirectory in self.subdirectories:
+        self.subdirectories = []
+        for subdirectory in subdirectories:
             if subdirectory.startswith('.'):
                 continue
             subsubdirectory, subfiles = default_storage.listdir(
                 os.path.join(self.path, subdirectory))
             item_count = len(subsubdirectory) + len(subfiles)
+            self.subdirectories.append((subdirectory, item_count))
+
+        self.files = []
+        for file in files:
+            if file.startswith('.'):
+                continue
+            path_to_file = os.path.join(self.path, file)
+            size = default_storage.size(path_to_file)
+            self.files.append((file, size))
+
+        SORT = {'name': 0, 'size': 1}
+        self.subdirectories.sort(
+            key=lambda subdirectory: subdirectory[SORT[sort]], reverse=reverse)
+
+        self.files.sort(key=lambda file: file[SORT[sort]], reverse=reverse)
+
+    def iter_subdirectories(self):
+        for subdirectory, item_count in self.subdirectories:
             subdirectory_url = reverse('fileserver_directory', args=[
                encode_url(os.path.join(self.path, subdirectory))])
             yield (subdirectory, subdirectory_url, item_count)
 
     def iter_files(self):
-        for file in self.files:
-            if file.startswith('.'):
-                continue
+        for file, size in self.files:
             path_to_file = os.path.join(self.path, file)
-            size = default_storage.size(path_to_file)
             file_url = default_storage.url(path_to_file)
             yield (file, file_url, human_readable_size(size))
 
