@@ -1,7 +1,9 @@
 {% extends 'page.html' %}
 {% load i18n %}
+
+{% block headline %}{% trans 'Create Directory' %}{% endblock %}
+
 {% block content %}
-<h1>Create Directory</h1>
 <form action="" method="post">
   {% csrf_token %}
   {{ form }}

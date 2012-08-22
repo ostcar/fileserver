@@ -1,7 +1,9 @@
 {% extends 'page.html' %}
 {% load i18n %}
+
+{% block headline %}{% trans 'Please Write your TODOs' %}{% endblock %}
+
 {% block content %}
-<h1>{% trans 'Please Write your TODOs' %}</h1>
 <form action="" method="post">
   {% csrf_token %}
   {{ form.as_p }}
