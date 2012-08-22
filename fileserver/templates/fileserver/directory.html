@@ -1,14 +1,20 @@
 {% extends 'page.html' %}
 {% load i18n %}
+{% load url from future %}
 
 {% block headline %}{{ path|last|first }}{% endblock %}
 
 {% block content %}
-{% if back_url %}
+{% if directory.is_empty %}
 <div>
-  <a href="{{ back_url }}" class="btn">{% trans 'Back' %}</a>
+  <p>
+    <i>{% trans 'This directory is empty.' %}</i><br>
+    <a href="{% url 'fileserver_upload' full_path %}">
+      {% trans 'Do you whant to upload some files?' %}
+    </a>
+  </p>
 </div>
-{% endif %}
+{% else %}
 <table class="table table-bordered">
   <tr>
     <th width="85%">{% trans 'Name' %}</th>
@@ -27,4 +33,5 @@
   </tr>
   {% endfor %}
 </table>
+{% endif %}
 {% endblock content %}
