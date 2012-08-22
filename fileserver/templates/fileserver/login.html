@@ -1,14 +1,15 @@
 {% extends 'page.html' %}
 {% load i18n %}
 
-{% block headline %}{% trans 'login' %}{% endblock %}
+{% block headline %}{% trans 'Login' %}{% endblock %}
 
 {% block content %}
 <form action="" method="post">
     {% csrf_token %}
-    {{ form }}
-    <div class="form-actions">
-      <button class="btn btn-primary" type="submit">{% trans 'Log me in' %}</button>
+    <div class="input-append">
+      {{ form }}<button class="btn btn-primary" type="submit">
+        {% trans 'Log Me In' %}
+      </button>
     </div>
 </form>
 {% endblock content %}

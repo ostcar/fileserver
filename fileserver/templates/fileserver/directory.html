@@ -30,7 +30,11 @@
   </tr>
   {% for subdirectory, url, items in directory.iter_subdirectories %}
   <tr>
-    <td><a href="{{ url }}">{{ subdirectory }}</a></td>
+    <td>
+      <a href="{{ url }}">
+        <i class="icon-folder-close"></i> {{ subdirectory }}
+      </a>
+    </td>
     <td>{{ items }}</td>
   </tr>
   {% endfor %}
