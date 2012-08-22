@@ -1,8 +1,17 @@
 {% extends 'base.html' %}
+{% load url from future %}
 
 {% block body %}
 <div class="container">
   <h1>{% block headline %}{% endblock %}</h1>
+  <ul class="breadcrumb">
+    {% for directory, name in path %}
+    <li>
+      <a href="{% url 'fileserver_directory' directory %}">{{ name }}</a>
+      <span class="divider">/</span>
+    </li>
+    {% endfor %}
+  </ul>
   {% block content %}{% endblock content %}
 </div>
 {% endblock body %}

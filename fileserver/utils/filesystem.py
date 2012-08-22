@@ -73,6 +73,9 @@ class Directory(object):
     def __repr__(self):
         return unicode(self.path)
 
+    def is_empty(self):
+        return not self.subdirectories and not self.files
+
 
 def save_file(path, file):
     # TODO normalize filename

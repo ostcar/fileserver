@@ -32,16 +32,6 @@
         </div>
       </div>
     </div>
-    <div>
-      <ul class="breadcrumb nav nav-pills">
-        {% for directory, name in path %}
-        <li>
-          <a href="{% url 'fileserver_directory' directory %}">{{ name }}</a>
-          <span class="divider">/</span>
-        </li>
-        {% endfor %}
-      </ul>
-    </div>
     <div class="container">
       {% if messages %}
         {% for message in messages %}
