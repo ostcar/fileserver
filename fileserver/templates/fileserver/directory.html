@@ -23,7 +23,7 @@
   </p>
 </div>
 {% else %}
-<table class="table table-bordered">
+<table id="folder_table" class="table table-bordered">
   <tr>
     <th width="85%"><a href="{{ name_url }}">{% trans 'Name' %}</a></th>
     <th><a href="{{ size_url }}">{% trans 'Size' %}</a></th>
@@ -32,7 +32,7 @@
   <tr>
     <td>
       <a href="{{ url }}">
-        <i class="icon-folder-close"></i> {{ subdirectory }}
+        <i class="icon-folder-close"></i>{{ subdirectory }}
       </a>
     </td>
     <td>{{ items }}</td>

@@ -9,3 +9,7 @@ input.snap-size {
 td.filename {
   padding-right: 18px;
 }
+
+#folder_table i.icon-folder-close {
+  padding: 2px;
+}
