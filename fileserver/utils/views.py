@@ -26,7 +26,7 @@ class LogedInMixin(object):
 
 class SetPathMixin(object):
     def get_path(self):
-        return os.path.normpath(urllib.unquote(self.kwargs.get('path', '')))
+        return urllib.unquote(self.kwargs.get('path', ''))
 
     def get_context_data(self, **kwargs):
         context = super(SetPathMixin, self).get_context_data(**kwargs)

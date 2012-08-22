@@ -46,6 +46,7 @@ login = LoginView.as_view()
 
 class LogoutView(RedirectView):
     url = reverse_lazy('fileserver_frontpage')
+    permanent = False
 
     def get(self, request, *args, **kwargs):
         request.session.flush()
@@ -62,9 +63,6 @@ class DirectoryView(SetPathMixin, LogedInMixin, TemplateView):
         context = super(DirectoryView, self).get_context_data(**kwargs)
         path = self.get_path()
         context['directory'] = Directory(path)
-        if path != '.':
-            context['back_url'] = reverse(
-                'fileserver_directory', args=[os.path.join(path, '..')])
         return context
 
 
@@ -104,13 +102,10 @@ download = DownloadView.as_view()
 class ZipDirectoryView(SetPathMixin, LogedInMixin, View):
     def get(self, request, *args, **kwargs):
         path = self.get_path()
-        filename = path.split(os.sep)[-1]
-        if filename == '.':
-            filename = 'index.zip'
-        else:
-            # TODO: Find a way to use umlauts in the filename
-            ascii_filename = filename.encode('ascii', 'ignore') or 'directory'
-            filename = "%s.zip" % ascii_filename
+        filename = path.split(os.sep)[-1] or 'index'
+        # TODO: Find a way to use umlauts in the filename
+        ascii_filename = filename.encode('ascii', 'ignore') or 'directory'
+        filename = "%s.zip" % ascii_filename
         archiv = StringIO()
         default_storage.zipdir(path, archiv, include_hidden=False)
         archiv.seek(0)
