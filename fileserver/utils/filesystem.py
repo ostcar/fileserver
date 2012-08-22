@@ -71,7 +71,7 @@ class Directory(object):
             yield (file, file_url, human_readable_size(size))
 
     def __repr__(self):
-        return unicode(self.path)
+        return unicode(self.path) or 'index'
 
     def is_empty(self):
         return not self.subdirectories and not self.files

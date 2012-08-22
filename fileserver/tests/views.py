@@ -1,6 +1,9 @@
 from django.test import SimpleTestCase
 from django.test.client import Client
 from django.test.utils import override_settings
+from django.core.files.storage import default_storage
+
+from ..utils.filesystem import Directory
 
 
 class TestFileserverViews(SimpleTestCase):
@@ -27,4 +30,10 @@ class TestFileserverViews(SimpleTestCase):
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response['Location'],
                          'http://testserver/')
+
+    def test_directory(self):
+        response = self.c.get('/index/')
+        self.assertEqual(response.status_code, 200)
+        directory = Directory('')
+        self.assertEqual(response.context['directory'].path, directory.path)
 
