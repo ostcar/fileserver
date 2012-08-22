@@ -1,0 +1,85 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# Oskar Hahn <mail@oshahn.de>, 2012.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-08-22 13:50+0000\n"
+"PO-Revision-Date: 2012-08-22 15:52+0200\n"
+"Last-Translator: Oskar Hahn <mail@oshahn.de>\n"
+"Language: German\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Gtranslator 2.91.5\n"
+
+#: forms.py:16
+msgid "Wrong password"
+msgstr "Falsches Passwort"
+
+#: settings.py:35
+msgid "German"
+msgstr "Deutsch"
+
+#: settings.py:36
+msgid "English"
+msgstr "Englisch"
+
+#: templates/base.html:20 templates/fileserver/create_subdirectory.html:10
+#: templates/fileserver/update_directory.html:11
+#: templates/fileserver/upload.html:12
+msgid "Upload"
+msgstr "Hochladen"
+
+#: templates/base.html:21
+msgid "Create Directory"
+msgstr "Order Erstellen"
+
+#: templates/base.html:22
+msgid "Edit Directory"
+msgstr "Ordner bearbeiten"
+
+#: templates/base.html:23
+msgid "Download Directory"
+msgstr "Order herunterladen"
+
+#: templates/base.html:28
+msgid "Login"
+msgstr "Anmelden"
+
+#: templates/base.html:30
+msgid "Logout"
+msgstr "Abmelden"
+
+#: templates/fileserver/create_subdirectory.html:11
+msgid "Cancel"
+msgstr "Abbrechen"
+
+#: templates/fileserver/directory.html:11
+msgid "back"
+msgstr "zurück"
+
+#: templates/fileserver/frontpage.html:4
+msgid " Wellcome to the Fileserver"
+msgstr "Willkommen zum Fileserver"
+
+#: templates/fileserver/login.html:8
+msgid "Log me in"
+msgstr "Melde mich an"
+
+#: templates/fileserver/todo.html:4
+msgid "Please Write your TODOs"
+msgstr "Bitte schreibe deine TODOs"
+
+#: templates/fileserver/todo.html:10
+msgid "Save"
+msgstr "Speichern"
+
+#: templates/fileserver/update_directory.html:12
+msgid "reset"
+msgstr "zurücksetzten"
