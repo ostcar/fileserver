@@ -14,9 +14,7 @@
         <div>
           <a class="brand" href="{% url 'fileserver_frontpage' %}">Fileserver</a>
           <ul class="nav">
-            {% for directory, name in path %}
-            <li><a href="{% url 'fileserver_directory' directory %}">{{ name }}</a></li>
-            {% endfor %}
+            <li><a href="{% url 'fileserver_directory' full_path %}"> {% trans 'Browse' %}</a></li>
             <li><a href="{% url 'fileserver_upload' full_path %}"> {% trans 'Upload' %}</a></li>
             <li><a href="{% url 'fileserver_mkdir' full_path %}"> {% trans 'Create Directory' %}</a></li>
             <li><a href="{% url 'fileserver_edit_directory' full_path %}"> {% trans 'Edit Directory' %}</a></li>
@@ -33,6 +31,16 @@
           {% endif %}
         </div>
       </div>
+    </div>
+    <div>
+      <ul class="breadcrumb nav nav-pills">
+        {% for directory, name in path %}
+        <li>
+          <a href="{% url 'fileserver_directory' directory %}">{{ name }}</a>
+          <span class="divider">/</span>
+        </li>
+        {% endfor %}
+      </ul>
     </div>
     <div class="container">
       {% if messages %}
