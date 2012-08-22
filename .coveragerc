@@ -1,0 +1,5 @@
+[run]
+source=fileserver
+omit=fileserver/tests.py
+[report]
+exclude_lines = def __(unicode|repr)__
