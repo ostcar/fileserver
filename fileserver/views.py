@@ -46,6 +46,7 @@ login = LoginView.as_view()
 
 class LogoutView(RedirectView):
     url = reverse_lazy('fileserver_frontpage')
+    permanent = False
 
     def get(self, request, *args, **kwargs):
         request.session.flush()

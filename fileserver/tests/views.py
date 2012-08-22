@@ -21,3 +21,10 @@ class TestFileserverViews(SimpleTestCase):
                          [u'Wrong password'])
         response = self.c.post('/login/', {'password': 'PASSWORD'})
         self.assertEqual(response.status_code, 302)
+
+    def test_logout(self):
+        response = self.c.get('/logout/')
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response['Location'],
+                         'http://testserver/')
+
