@@ -140,6 +140,7 @@ zip_directory = ZipDirectoryView.as_view()
 class UploadView(SetPathMixin, LogedInMixin, FormSetView):
     form_class = UploadForm
     template_name = 'fileserver/upload.html'
+    extra = 3
 
     def get_success_url(self):
         return reverse('fileserver_directory', args=[self.get_path()])

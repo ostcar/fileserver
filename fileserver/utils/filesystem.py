@@ -100,9 +100,9 @@ def save_file(path, file):
 
 # from http://stackoverflow.com/a/1094933
 def human_readable_size(num):
-    for x in ['bytes','KB','MB','GB','TB']:
+    for x in ['Byte','KB','MB','GB','TB']:
         if num < 1024.0:
-            return "%3.1f%s" % (num, x)
+            return "%3.1f %s" % (num, x)
         num /= 1024.0
 
 
