@@ -30,4 +30,4 @@ class TodoForm(forms.Form):
 
 class UpdateDirectoryForm(forms.Form):
     old_name = forms.fields.CharField(widget=forms.HiddenInput)
-    new_name = forms.fields.CharField()
+    new_name = forms.fields.CharField(widget=forms.TextInput(attrs={'class':'snap-size'}))

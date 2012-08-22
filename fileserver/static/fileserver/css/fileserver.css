@@ -1,3 +1,7 @@
 .container h1 {
   font-size: 1.9em;
 }
+
+input.snap-size {
+  width: 100%
+}

@@ -1,18 +1,32 @@
 {% extends 'page.html' %}
 {% load i18n %}
 
-{% block headline %}{% trans 'Update directory' %}{% endblock %}
+{% block headline %}{% trans 'Edit Directory' %}{% endblock %}
 
 {% block content %}
 <form action="" method="post">
   {% csrf_token %}
-  <table>
-  {{ formset }}
+  <table class="table table-bordered">
+  {{ formset.management_form }}
+  <tr>
+    <th width="96%">{% trans 'Directory or File Name' %}</th>
+    <th>{% trans 'Delete' %}</th>
+  </tr>
+  {% for form in formset %}
+  <tr>
+    <td>{{ form.old_name }}{{ form.new_name }}</td>
+    <td>{{ form.DELETE }}</td>
+  </tr>
+  {% endfor %}
+  <tr>
+    <td></td>
+    <td><a href="#" class="btn btn-mini">{% trans 'Mark All' %}</a></td>
+  </tr>
   </table>
 
   <div class="form-actions">
-    <button class="btn btn-primary" type="submit">{% trans 'Upload' %}</button>
-    <button class="btn" type="reset">{% trans 'reset' %}</a>
+    <button class="btn btn-primary" type="submit">{% trans 'Save Changes' %}</button>
+    <button class="btn" type="reset">{% trans 'Reset' %}</a>
   </div>
 </form>
 {% endblock content %}
