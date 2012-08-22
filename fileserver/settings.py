@@ -16,6 +16,7 @@ LOGIN_REDIRECT_URL = '/'
 LOGIN_PASSWORD = ''
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
+SESSION_COOKIE_AGE = 60 * 60 * 2
 
 DEFAULT_FILE_STORAGE = 'fileserver.utils.filesystem.FileServerStorage'
 
