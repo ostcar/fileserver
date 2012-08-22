@@ -42,7 +42,6 @@ class FileServerStorage(FileSystemStorage):
                     if include_hidden or not file.startswith('.'):
                         abs_path = os.path.join(root, file)
                         relative_path = abs_path[len(path) + len(os.sep):]
-                        print abs_path, relative_path
                         archiv.write(abs_path, relative_path)
 
 

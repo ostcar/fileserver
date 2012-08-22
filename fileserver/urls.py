@@ -2,8 +2,8 @@ from django.conf.urls import patterns, include, url
 
 urlpatterns = patterns('fileserver.views',
     url(r'^$', 'frontpage', name='fileserver_frontpage'),
-    url(r'^login$', 'login', name='fileserver_login'),
-    url(r'^logout$', 'logout', name='fileserver_logout'),
+    url(r'^login/$', 'login', name='fileserver_login'),
+    url(r'^logout/$', 'logout', name='fileserver_logout'),
     url(r'^todo/$', 'todo', name='fileserver_todo'),
     url(r'^index/(?P<path>.*)', 'serve_directory', name='fileserver_directory'),
     url(r'^mkdir/(?P<path>.*)', 'mkdir', name='fileserver_mkdir'),

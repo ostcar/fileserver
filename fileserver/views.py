@@ -60,11 +60,11 @@ class DirectoryView(SetPathMixin, LogedInMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(DirectoryView, self).get_context_data(**kwargs)
-        path = kwargs.pop('path')
+        path = self.get_path()
         context['directory'] = Directory(path)
-        if path:
-            context['back_url'] = reverse('fileserver_directory', args=[
-                os.path.join(path, '..')])
+        if path != '.':
+            context['back_url'] = reverse(
+                'fileserver_directory', args=[os.path.join(path, '..')])
         return context
 
 
@@ -132,6 +132,7 @@ class UploadView(SetPathMixin, LogedInMixin, FormSetView):
     def formset_valid(self, formset):
         for form in formset:
             if 'file' in form.cleaned_data:
+                # TODO: rewrite this with default_storage
                 save_file(self.kwargs['path'], form.cleaned_data['file'])
         return super(UploadView, self).formset_valid(formset)
 
