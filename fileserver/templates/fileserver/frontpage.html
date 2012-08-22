@@ -1,5 +1,18 @@
 {% extends 'page.html' %}
 {% load i18n %}
+
+{% block headline %}{% trans 'Wellcome to' %} Fileserver{% endblock headline %}
+
 {% block content %}
-{% blocktrans %} Wellcome to the Fileserver{% endblocktrans %}
+<div class="hero-unit">
+  {% blocktrans %}<p>Wellcome to Fileserver. This is a place for you to store
+    and exchange some of your data. You can upload and downlaod files, create
+    directorys and use some other little features.
+    </p><p>Have fun!</p>{% endblocktrans %}
+    <a class="btn btn-primary btn-large">{% trans 'Browse and download files' %}</a>
+    <a class="btn btn-primary btn-large">{% trans 'Upload files' %}</a>
+  </p>
+  </div>
+
+
 {% endblock content %}
