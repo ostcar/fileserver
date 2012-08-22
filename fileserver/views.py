@@ -93,6 +93,7 @@ class DownloadView(SetPathMixin, LogedInMixin, View):
         requested_file = default_storage.open(path)
         response = HttpResponse(FileWrapper(requested_file),
                                 content_type=guess_type(path))
+        response['Content-Disposition'] = 'attachment'
         return response
 
 
