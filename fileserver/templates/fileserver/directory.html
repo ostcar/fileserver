@@ -7,10 +7,10 @@
 {% block content %}
 <ul class="breadcrumb">
 {% for directory, name in path %}
-    <li>
-      <a href="{% url 'fileserver_directory' directory %}">{{ name }}</a>
-      <span class="divider">/</span>
-    </li>
+  <li>
+    <a href="{% url 'fileserver_directory' directory %}">{{ name }}</a>
+    <span class="divider">/</span>
+  </li>
 {% endfor %}
 </ul>
 {% if directory.is_empty %}
@@ -25,8 +25,8 @@
 {% else %}
 <table class="table table-bordered">
   <tr>
-    <th width="85%">{% trans 'Name' %}</th>
-    <th>{% trans 'Size' %}</th>
+    <th width="85%"><a href="{{ name_url }}">{% trans 'Name' %}</a></th>
+    <th><a href="{{ size_url }}">{% trans 'Size' %}</a></th>
   </tr>
   {% for subdirectory, url, items in directory.iter_subdirectories %}
   <tr>
