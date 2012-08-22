@@ -1,10 +1,10 @@
 {% extends 'page.html' %}
 {% load i18n %}
 {% block content %}
-<table>
+<table class="table table-bordered">
   <tr>
-    <th>Name</th>
-    <th>Size</th>
+    <th width="85%">{% trans 'Name' %}</th>
+    <th>{% trans 'Size' %}</th>
   </tr>
   {% if back_url %}
   <tr>
