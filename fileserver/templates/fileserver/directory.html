@@ -1,16 +1,16 @@
 {% extends 'page.html' %}
 {% load i18n %}
 {% block content %}
+{% if back_url %}
+<div>
+  <a href="{{ back_url }}" class="btn">{% trans 'Back' %}</a>
+</div>
+{% endif %}
 <table class="table table-bordered">
   <tr>
     <th width="85%">{% trans 'Name' %}</th>
     <th>{% trans 'Size' %}</th>
   </tr>
-  {% if back_url %}
-  <tr>
-    <td><a href="{{ back_url }}">{% trans 'back' %}</a></td>
-  </tr>
-  {% endif %}
   {% for subdirectory, url, items in directory.iter_subdirectories %}
   <tr>
     <td><a href="{{ url }}">{{ subdirectory }}</a></td>
