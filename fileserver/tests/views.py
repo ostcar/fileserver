@@ -49,4 +49,8 @@ class TestFileserverViews(SimpleTestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.content, 'The first test file.\n')
 
+    def test_zip_directory(self):
+        response = self.c.get('/zip/')
+        self.assertEqual(response.status_code, 200)
+
 
