@@ -1,5 +1,8 @@
 {% extends 'page.html' %}
 {% load i18n %}
+
+{% block headline %}{{ path|last|first }}{% endblock %}
+
 {% block content %}
 <table>
   <tr>
