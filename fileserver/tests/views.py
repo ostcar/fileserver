@@ -37,3 +37,11 @@ class TestFileserverViews(SimpleTestCase):
         directory = Directory('')
         self.assertEqual(response.context['directory'].path, directory.path)
 
+    def test_create_subdirectory(self):
+        response = self.c.post('/mkdir/',
+                               {'name': 'test'})
+        self.assertEqual(response.status_code, 302)
+        self.assertTrue(default_storage.exists('test'))
+        default_storage.delete('test')
+
+
