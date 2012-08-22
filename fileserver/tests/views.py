@@ -10,3 +10,14 @@ class TestFileserverViews(SimpleTestCase):
     def test_front_page(self):
         response = self.c.get('/')
         self.assertEqual(response.status_code, 200)
+
+    @override_settings(LOGIN_PASSWORD='PASSWORD')
+    def test_login(self):
+        response = self.c.get('/login/')
+        self.assertEqual(response.status_code, 200)
+        response = self.c.post('/login/', {'password': 'wrong'})
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.context['form'].errors['password'],
+                         [u'Wrong password'])
+        response = self.c.post('/login/', {'password': 'PASSWORD'})
+        self.assertEqual(response.status_code, 302)
