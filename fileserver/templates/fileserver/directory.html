@@ -1,9 +1,18 @@
 {% extends 'page.html' %}
 {% load i18n %}
+{% load url from future %}
 
 {% block headline %}{{ path|last|first }}{% endblock %}
 
 {% block content %}
+<ul class="breadcrumb">
+{% for directory, name in path %}
+<li>
+  <a href="{% url 'fileserver_directory' directory %}">{{ name }}</a>
+  <span class="divider">/</span>
+</li>
+{% endfor %}
+</ul>
 {% if back_url %}
 <div>
   <a href="{{ back_url }}" class="btn">{% trans 'Back' %}</a>
