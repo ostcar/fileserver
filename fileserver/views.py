@@ -160,7 +160,6 @@ class UpdateDirectoryView(SetPathMixin, LogedInMixin, FormSetView):
             if form.cleaned_data['DELETE']:
                 default_storage.delete(old_path)
             else:
-                old_path = os.path.join(path, form.cleaned_data['old_name'])
                 new_path = os.path.join(path, form.cleaned_data['new_name'])
                 if old_path != new_path:
                     default_storage.mv(old_path, new_path)

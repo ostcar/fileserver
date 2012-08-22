@@ -30,7 +30,7 @@ class FileServerStorage(FileSystemStorage):
         if os.path.isdir(self.path(name)):
             os.rmdir(self.path(name))
         else:
-            os.remove(name)
+            os.remove(self.path(name))
 
     # From http://stackoverflow.com/a/296722
     def zipdir(self, basedir, archivename, include_hidden=False):
