@@ -10,6 +10,8 @@ from django.utils.translation import ugettext as _
 from django.views.generic.base import TemplateView, View, RedirectView
 from django.views.generic.edit import FormView
 from django.http import HttpResponse
+from django.core.exceptions import SuspiciousOperation
+from django.contrib import messages
 
 from extra_views import FormSetView
 
@@ -189,7 +191,12 @@ class UpdateDirectoryView(SetPathMixin, LogedInMixin, FormSetView):
             else:
                 new_path = os.path.join(path, form.cleaned_data['new_name'])
                 if old_path != new_path:
-                    default_storage.mv(old_path, new_path)
+                    try:
+                        default_storage.mv(old_path, new_path)
+                    except SuspiciousOperation as e:
+                        messages.error(self.request,
+                                       _('Error in "%s": %s') % (old_path, e))
+
         return super(UpdateDirectoryView, self).formset_valid(formset)
 
 
