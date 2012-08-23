@@ -2,12 +2,29 @@
   font-size: 1.9em;
 }
 
-input.snap-size {
-  width: 100%
+td.directoryname {
+  padding-right: 50px;
 }
 
 td.filename {
-  padding-right: 18px;
+  padding-right: 25px;
+}
+
+td.name i.icon-folder-close {
+  float: left;
+  padding-right: 9px;
+}
+
+td.name span {
+  display: block;
+  float: left;
+  margin-left: -30px;
+  width: 100%;
+}
+
+input.snap-size {
+  width: 100%;
+  margin-left: 30px;
 }
 
 #folder_table i.icon-folder-close {
