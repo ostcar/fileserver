@@ -183,6 +183,10 @@ class UpdateDirectoryView(SetPathMixin, LogedInMixin, FormSetView):
             initial.append({'old_name': name, 'new_name': name})
         return initial
 
+    def get(self, request, *args, **kwargs):
+        messages.warning(self.request, _('You can not undo the deletion'))
+        return super(UpdateDirectoryView, self).get(request, *args, **kwargs)
+
     def get_success_url(self):
         return reverse('fileserver_directory', args=[self.get_path()])
 

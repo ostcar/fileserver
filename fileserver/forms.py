@@ -30,7 +30,6 @@ class TodoForm(forms.Form):
     todo = forms.fields.CharField(widget=forms.Textarea, required=False)
     old_hash = forms.fields.CharField(widget=forms.HiddenInput, required=False)
 
-
     def clean(self):
         if default_storage.exists('todo.txt'):
             todo = default_storage.open('todo.txt')
