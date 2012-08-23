@@ -106,7 +106,7 @@ class TestFileserverViews(SimpleTestCase):
     def test_todo(self):
         response = self.c.get('/todo/')
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.context['form']['todo'].value(), None)
+        self.assertEqual(response.context['form']['todo'].value(), '')
         response = self.c.post('/todo/',
                                {'todo': 'new_content\n'})
         self.assertEqual(response.status_code, 302)

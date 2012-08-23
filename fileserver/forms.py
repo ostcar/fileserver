@@ -37,7 +37,7 @@ class TodoForm(forms.Form):
             todo.close()
         else:
             old_hash = hash('')
-        if old_hash != int(self.cleaned_data['old_hash']):
+        if old_hash != int(self.cleaned_data['old_hash'] or 0):
             raise ValidationError(_('The File has changed'))
         return self.cleaned_data
 
