@@ -11,7 +11,7 @@ class LoginForm(forms.Form):
 
     def clean_password(self):
         data = self.cleaned_data['password']
-        if data == settings.LOGIN_PASSWORD:
+        if data in [settings.LOGIN_PASSWORD, settings.ADMIN_PASSWORD]:
             return data
         else:
             raise ValidationError(_('Wrong password'))

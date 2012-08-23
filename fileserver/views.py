@@ -37,6 +37,9 @@ class LoginView(FormView):
         return redirect_to
 
     def form_valid(self, form):
+        if form.cleaned_data['password'] == settings.ADMIN_PASSWORD:
+            self.request.session['is_admin'] = True
+
         self.request.session['loged_in'] = True
         return super(LoginView, self).form_valid(form)
 
