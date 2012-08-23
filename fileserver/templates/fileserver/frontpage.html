@@ -1,5 +1,6 @@
 {% extends 'page.html' %}
 {% load i18n %}
+{% load url from future %}
 
 {% block headline %}{% trans 'Wellcome to' %} Fileserver{% endblock headline %}
 
@@ -9,8 +10,12 @@
     and exchange some of your data. You can upload and downlaod files, create
     directorys and use some other little features.
     </p><p>Have fun!</p>{% endblocktrans %}
-    <a class="btn btn-primary btn-large">{% trans 'Browse and download files' %}</a>
-    <a class="btn btn-primary btn-large">{% trans 'Upload files' %}</a>
+    <a href="{% url 'fileserver_directory' full_path %}" class="btn btn-primary btn-large">
+      {% trans 'Browse And Download Files' %}
+    </a>
+    <a href="{% url 'fileserver_upload' full_path %}" class="btn btn-primary btn-large">
+      {% trans 'Upload Files' %}
+    </a>
   </p>
   </div>
 
