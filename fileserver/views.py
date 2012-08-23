@@ -221,9 +221,11 @@ class TodoView(LogedInMixin, FormView):
     def get_initial(self):
         if default_storage.exists('todo.txt'):
             todo = default_storage.open('todo.txt')
-            return {'todo': "".join(todo.readlines())}
+            content = "".join(todo.readlines())
+            todo.close()
+            return {'todo': content, 'old_hash': hash(content)}
         else:
-            return {}
+            return {'todo': '', 'old_hash': hash('')}
 
 
 todo = TodoView.as_view()
