@@ -13,3 +13,8 @@ td.filename {
 #folder_table i.icon-folder-close {
   padding: 2px;
 }
+
+img.logo-front {
+  float: left;
+  padding-right: 40px;
+}
