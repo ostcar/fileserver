@@ -182,10 +182,12 @@ class UpdateDirectoryView(SetPathMixin, LogedInMixin, FormSetView):
         directory = Directory(self.get_path())
         initial = []
         for name, url, item_count in directory.iter_subdirectories():
-            initial.append({'old_name': name, 'new_name': name})
+            initial.append(
+                {'old_name': name, 'new_name': name, 'is_directory': True})
 
         for name, url, size in directory.iter_files():
-            initial.append({'old_name': name, 'new_name': name})
+            initial.append(
+                {'old_name': name, 'new_name': name, 'is_directory': False})
         return initial
 
     def get(self, request, *args, **kwargs):
