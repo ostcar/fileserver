@@ -28,5 +28,9 @@
   $('#add_more').click(function () {
     cloneMore('form p:last', 'form');
   });
+  $('.alert.alert-warning').hide();
+  $('form').submit(function () {
+    $('.alert.alert-warning').slideDown();
+  });
 </script>
 {% endblock scripts %}

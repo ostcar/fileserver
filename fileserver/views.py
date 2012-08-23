@@ -151,6 +151,10 @@ class UploadView(SetPathMixin, LogedInMixin, FormSetView):
     template_name = 'fileserver/upload.html'
     extra = 3
 
+    def get(self, request, *args, **kwargs):
+        messages.warning(self.request, _('Do not reload this page!'))
+        return super(UploadView, self).get(request, *args, **kwargs)
+
     def get_success_url(self):
         return reverse('fileserver_directory', args=[self.get_path()])
 
