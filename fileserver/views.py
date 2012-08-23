@@ -19,8 +19,9 @@ from .forms import (LoginForm, UploadForm, CreateSubdirectoryForm, TodoForm,
     UpdateDirectoryForm)
 
 
-class FrontpageView(SetPathMixin, TemplateView):
+class FrontpageView(LogedInMixin, SetPathMixin, TemplateView):
     template_name = 'fileserver/frontpage.html'
+    need_login = False
 
 
 frontpage = FrontpageView.as_view()
@@ -164,6 +165,7 @@ class UpdateDirectoryView(SetPathMixin, LogedInMixin, FormSetView):
     template_name = 'fileserver/update_directory.html'
     can_delete = True
     extra = 0
+    require_admin = True
 
     def get_initial(self):
         directory = Directory(self.get_path())
