@@ -1,3 +1,5 @@
+from django.core.files.uploadedfile import SimpleUploadedFile
+from django.core.files.base import ContentFile
 from django.test import SimpleTestCase
 from django.test.client import Client
 from django.test.utils import override_settings
@@ -52,5 +54,53 @@ class TestFileserverViews(SimpleTestCase):
     def test_zip_directory(self):
         response = self.c.get('/zip/')
         self.assertEqual(response.status_code, 200)
+
+    def test_upload(self):
+        new_file = SimpleUploadedFile('new_file', 'content')
+        response = self.c.post('/upload/',
+                               {'form-TOTAL_FORMS':1,
+                                'form-INITIAL_FORMS': 0,
+                                'form-0-file': new_file})
+        self.assertEqual(response.status_code, 302)
+        self.assertTrue(default_storage.exists('new_file'))
+        default_storage.delete('new_file')
+
+    def test_update_directory(self):
+        test_file2 = ContentFile('content\n')
+        default_storage.save('test_file2', test_file2)
+        default_storage.mkdir('test_dir')
+        response = self.c.post('/edit/',
+                               {'form-TOTAL_FORMS': 3,
+                                'form-INITIAL_FORMS': 3,
+                                'form-0-old_name': 'test_file1.txt',
+                                'form-0-new_name': 'test_file1.renamed',
+                                'form-1-old_name': 'test_file2',
+                                'form-1-new_name': 'test_file2',
+                                'form-1-DELETE': True,
+                                'form-2-old_name': 'test_dir',
+                                'form-2-new_name': 'test_dir',
+                                'form-2-DELETE': True})
+        self.assertEqual(response.status_code, 302)
+        self.assertFalse(default_storage.exists('test_file2'))
+        self.assertFalse(default_storage.exists('test_file1.txt'))
+        self.assertFalse(default_storage.exists('test_dir'))
+        self.assertTrue(default_storage.exists('test_file1.renamed'))
+        default_storage.mv('test_file1.renamed', 'test_file1.txt')
+
+    def test_todo(self):
+        response = self.c.get('/todo/')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.context['form']['todo'].value(), None)
+        response = self.c.post('/todo/',
+                               {'todo': 'new_content\n'})
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(default_storage.open('todo.txt').read(), 'new_content\n')
+
+        response = self.c.get('/todo/')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.context['form']['todo'].value(), 'new_content\n')
+
+        default_storage.delete('todo.txt')
+
 
 
