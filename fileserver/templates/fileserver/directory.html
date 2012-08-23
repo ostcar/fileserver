@@ -16,10 +16,7 @@
 {% if directory.is_empty %}
 <div>
   <p>
-    <i>{% trans 'This directory is empty.' %}</i><br>
-    <a href="{% url 'fileserver_upload' full_path %}">
-      {% trans 'Do you whant to upload some files?' %}
-    </a>
+    <i>{% trans 'This directory is empty.' %}</i>
   </p>
 </div>
 {% else %}
@@ -52,11 +49,13 @@
 <a href="{% url 'fileserver_mkdir' full_path %}" class="btn">
   <i class="icon-folder-open"></i> {% trans 'Create Directory' %}
 </a>
-<a href="{% url 'fileserver_zip' full_path %}" class="btn">
-  <i class="icon-download-alt"></i> {% trans 'Download Directory' %}
-</a>
-{% if is_admin %}
-<a href="{% url 'fileserver_edit_directory' full_path %}" class="btn">
-  <i class="icon-wrench"></i> {% trans 'Edit Directory' %}</a>
+{% if not directory.is_empty %}
+  <a href="{% url 'fileserver_zip' full_path %}" class="btn">
+    <i class="icon-download-alt"></i> {% trans 'Download Directory' %}
+  </a>
+  {% if is_admin %}
+  <a href="{% url 'fileserver_edit_directory' full_path %}" class="btn">
+    <i class="icon-wrench"></i> {% trans 'Edit Directory' %}</a>
+  {% endif %}
 {% endif %}
 {% endblock content %}
