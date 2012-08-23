@@ -96,7 +96,10 @@ class CreateSubdirectoryView(SetPathMixin, LogedInMixin, FormView):
 
     def form_valid(self, form):
         new_dir = form.cleaned_data['name']
-        default_storage.mkdir(os.path.join(self.get_path(), new_dir))
+        try:
+            default_storage.mkdir(os.path.join(self.get_path(), new_dir))
+        except (SuspiciousOperation, OSError) as e:
+            messages.error(self.request, _('Error in "%s": %s') % (new_dir, e))
         return super(CreateSubdirectoryView, self).form_valid(form)
 
     def get_success_url(self):
