@@ -50,6 +50,8 @@ class SetPathMixin(object):
         context['path'] = [('', 'index')]
         path_list = path.split(os.sep)
         for index in range(len(path_list)):
+            if not path_list[index]:
+                continue
             name = path_list[index]
             directory = os.sep.join(path_list[:index + 1])
             context['path'].append((directory, name))
