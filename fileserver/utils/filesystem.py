@@ -93,12 +93,6 @@ class Directory(object):
         return not self.subdirectories and not self.files
 
 
-def save_file(path, file):
-    # TODO normalize filename
-    name = os.path.join(path, file.name)
-    default_storage.save(name, file)
-
-
 # from http://stackoverflow.com/a/1094933
 def human_readable_size(num):
     for x in ['Byte','KB','MB','GB','TB']:

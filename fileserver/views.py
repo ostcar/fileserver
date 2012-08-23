@@ -15,7 +15,7 @@ from django.contrib import messages
 
 from extra_views import FormSetView
 
-from .utils.filesystem import Directory, save_file, guess_type
+from .utils.filesystem import Directory, guess_type
 from .utils.views import LogedInMixin, SetPathMixin
 from .forms import (LoginForm, UploadForm, CreateSubdirectoryForm, TodoForm,
     UpdateDirectoryForm)
@@ -155,10 +155,11 @@ class UploadView(SetPathMixin, LogedInMixin, FormSetView):
         return reverse('fileserver_directory', args=[self.get_path()])
 
     def formset_valid(self, formset):
+        path = self.get_path()
         for form in formset:
             if 'file' in form.cleaned_data:
-                # TODO: rewrite this with default_storage
-                save_file(self.kwargs['path'], form.cleaned_data['file'])
+                file_name = os.path.join(path, form.cleaned_data['file'].name)
+                default_storage.save(file_name, form.cleaned_data['file'])
         return super(UploadView, self).formset_valid(formset)
 
 
