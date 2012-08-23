@@ -14,7 +14,13 @@
   </tr>
   {% for form in formset %}
   <tr>
-    <td class="filename">{% if form.initial.is_directory %}<i class="icon-folder-close"></i>{% endif %}{{ form.old_name }}{{ form.new_name }}</td>
+    <td class="name {% if form.initial.is_directory %}directory{% else %}file{% endif %}name">
+      {{ form.old_name }}
+      {% if form.initial.is_directory %}
+      <i class="icon-folder-close"></i>
+      {% endif %}
+      <span>{{ form.new_name }}</span>
+    </td>
     <td>{{ form.DELETE }}</td>
   </tr>
   {% endfor %}
