@@ -193,7 +193,7 @@ class UpdateDirectoryView(SetPathMixin, LogedInMixin, FormSetView):
                 if old_path != new_path:
                     try:
                         default_storage.mv(old_path, new_path)
-                    except SuspiciousOperation as e:
+                    except (SuspiciousOperation, OSError) as e:
                         messages.error(self.request,
                                        _('Error in "%s": %s') % (old_path, e))
 
