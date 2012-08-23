@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import os
+import shutil
 import urllib
 import mimetypes
 from zipfile import ZipFile, ZIP_DEFLATED
@@ -28,7 +29,7 @@ class FileServerStorage(FileSystemStorage):
 
     def delete(self, name):
         if os.path.isdir(self.path(name)):
-            os.rmdir(self.path(name))
+            shutil.rmtree(self.path(name))
         else:
             os.remove(self.path(name))
 

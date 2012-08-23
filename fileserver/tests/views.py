@@ -87,6 +87,22 @@ class TestFileserverViews(SimpleTestCase):
         self.assertTrue(default_storage.exists('test_file1.renamed'))
         default_storage.mv('test_file1.renamed', 'test_file1.txt')
 
+    def test_not_empty_directory(self):
+        default_storage.mkdir('not_empty_dir')
+        test_file2 = ContentFile('content\n')
+        default_storage.save('not_empty_dir/test_file2', test_file2)
+        response = self.c.post('/edit/',
+                               {'form-TOTAL_FORMS': 1,
+                                'form-INITIAL_FORMS': 1,
+                                'form-0-old_name': 'not_empty_dir',
+                                'form-0-new_name': 'not_empty_dir',
+                                'form-0-DELETE': True})
+        self.assertEqual(response.status_code, 302)
+        self.assertFalse(default_storage.exists('not_empty_dir'))
+
+
+
+
     def test_todo(self):
         response = self.c.get('/todo/')
         self.assertEqual(response.status_code, 200)
