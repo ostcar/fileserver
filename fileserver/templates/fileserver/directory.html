@@ -5,14 +5,6 @@
 {% block headline %}{{ path|last|last }}{% endblock %}
 
 {% block content %}
-<ul class="breadcrumb">
-{% for directory, name in path %}
-  <li>
-    <a href="{% url 'fileserver_directory' directory %}">{{ name }}</a>
-    <span class="divider">/</span>
-  </li>
-{% endfor %}
-</ul>
 {% if directory.is_empty %}
 <div>
   <p>
