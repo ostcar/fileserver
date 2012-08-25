@@ -12,6 +12,7 @@ from django.views.generic.edit import FormView
 from django.http import HttpResponse
 from django.core.exceptions import SuspiciousOperation
 from django.contrib import messages
+from django.views.defaults import page_not_found
 
 from extra_views import FormSetView
 
@@ -113,7 +114,12 @@ mkdir = CreateSubdirectoryView.as_view()
 class DownloadView(SetPathMixin, LogedInMixin, View):
     def get(self, request, *args, **kwargs):
         path = self.get_path()
-        requested_file = default_storage.open(path)
+        try:
+            requested_file = default_storage.open(path)
+        except IOError, e:
+            filename = os.path.basename(path)
+            messages.error(request, _('Can not Download %s: %s') % (filename, e))
+            return page_not_found(request)
         response = HttpResponse(FileWrapper(requested_file),
                                 content_type=guess_type(path))
         response['Content-Disposition'] = 'attachment'
