@@ -7,6 +7,8 @@ from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect, QueryDict
 from django.views.defaults import permission_denied
+from django.core.files.storage import default_storage
+from django.views.defaults import page_not_found
 
 
 class LogedInMixin(object):
@@ -41,6 +43,12 @@ class LogedInMixin(object):
 
 
 class SetPathMixin(object):
+    def get(self, request, *args, **kwargs):
+        path = self.get_path()
+        if not default_storage.exists(path):
+            return page_not_found(request)
+        return super(SetPathMixin, self).get(request, *args, **kwargs)
+
     def get_path(self):
         return urllib.unquote(self.kwargs.get('path', ''))
 
