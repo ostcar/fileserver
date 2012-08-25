@@ -5,14 +5,16 @@
 <div class="container">
   <h1>{% block headline %}{% endblock %}</h1>
   <hr>
+  {% if path %}
   <ul class="breadcrumb">
-    {% for directory, name in path %}
-      <li>
-        <a href="{% url 'fileserver_directory' directory %}">{{ name }}</a>
-        <span class="divider">/</span>
-      </li>
-    {% endfor %}
-    </ul>
+  {% for directory, name in path %}
+    <li>
+      <a href="{% url 'fileserver_directory' directory %}">{{ name }}</a>
+      <span class="divider">/</span>
+    </li>
+  {% endfor %}
+  </ul>
+  {% endif %}
   {% block content %}{% endblock content %}
 </div>
 {% endblock body %}
