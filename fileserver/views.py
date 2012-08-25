@@ -116,9 +116,7 @@ class DownloadView(SetPathMixin, LogedInMixin, View):
         path = self.get_path()
         try:
             requested_file = default_storage.open(path)
-        except IOError, e:
-            filename = os.path.basename(path)
-            messages.error(request, _('Can not Download %s: %s') % (filename, e))
+        except IOError:
             return page_not_found(request)
         response = HttpResponse(FileWrapper(requested_file),
                                 content_type=guess_type(path))
