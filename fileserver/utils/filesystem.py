@@ -68,11 +68,16 @@ class Directory(object):
             size = default_storage.size(path_to_file)
             self.files.append((file, size))
 
-        SORT = {'name': 0, 'size': 1}
-        self.subdirectories.sort(
-            key=lambda subdirectory: subdirectory[SORT[sort]].lower(), reverse=reverse)
+        if sort == 'name':
+            self.subdirectories.sort(
+                key=lambda subdirectory: subdirectory[0].lower(), reverse=reverse)
 
-        self.files.sort(key=lambda file: file[SORT[sort]].lower(), reverse=reverse)
+            self.files.sort(key=lambda file: file[0].lower(), reverse=reverse)
+        else:
+            self.subdirectories.sort(
+                key=lambda subdirectory: subdirectory[1], reverse=reverse)
+
+            self.files.sort(key=lambda file: file[1], reverse=reverse)
 
     def iter_subdirectories(self):
         for subdirectory, item_count in self.subdirectories:
