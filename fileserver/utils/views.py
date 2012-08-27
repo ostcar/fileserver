@@ -9,6 +9,7 @@ from django.http import HttpResponseRedirect, QueryDict
 from django.views.defaults import permission_denied
 from django.core.files.storage import default_storage
 from django.views.defaults import page_not_found
+from django.core.urlresolvers import resolve
 
 
 class LogedInMixin(object):
@@ -64,4 +65,5 @@ class SetPathMixin(object):
             directory = os.sep.join(path_list[:index + 1])
             context['path'].append((directory, name))
         context['full_path'] = path
+        context['active_tab'] = resolve(self.request.path).url_name
         return context
