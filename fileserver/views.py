@@ -22,7 +22,7 @@ from .forms import (LoginForm, UploadForm, CreateSubdirectoryForm, TodoForm,
     UpdateDirectoryForm)
 
 
-class FrontpageView(LogedInMixin, SetPathMixin, TemplateView):
+class FrontpageView(LogedInMixin, TemplateView):
     template_name = 'fileserver/frontpage.html'
     need_login = False
 

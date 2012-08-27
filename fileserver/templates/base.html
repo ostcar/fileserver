@@ -11,35 +11,12 @@
     <link rel="icon" type="image/png" href="{% static 'fileserver/img/favicon.png' %}">
   </head>
   <body>
-    <div class="navbar">
-      <div class="navbar-inner">
-        <div>
-          <a class="brand" href="{% url 'fileserver_frontpage' %}">Fileserver</a>
-          <ul class="nav">
-            <li><a href="{% url 'fileserver_directory' full_path %}"> {% trans 'Browse' %}</a></li>
-          </ul>
-          {% if need_password %}
-          <ul class="nav pull-right">
-          {% if not loged_in %}
-            <li><a href="{% url 'fileserver_login' %}"><i class="icon-signin"></i> {% trans 'Login' %}</a></li>
-          {% else %}
-            <li><a href="{% url 'fileserver_logout' %}"><i class="icon-signout"></i>{% trans 'Logout' %}</a></li>
-          {% endif %}
-          </ul>
-          {% endif %}
-        </div>
-      </div>
-    </div>
-    <div class="container">
-      {% if messages %}
-        {% for message in messages %}
-          <div class="alert alert-{{ message.tags }}">
-            <button class="close" data-dismiss="alert">&times;</button>
-            {{ message }}
-          </div>
-        {% endfor %}
-      {% endif %}
-    </div>
+    <header>
+      <a href="{% url 'fileserver_frontpage' %}">
+        <img class="logo" src="{% static 'fileserver/img/logo.png' %}" alt="" width=80px>
+        <h1>Fileserver</h1>
+      </a>
+    </header>
     {% block body %}
     {% endblock body %}
     <div class="container">

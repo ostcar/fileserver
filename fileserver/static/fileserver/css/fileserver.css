@@ -1,3 +1,24 @@
+body > header {
+  background-color: grey;
+  border-bottom: 3px solid black;
+}
+
+body > header a, body > header a:hover  {
+  color: #333333;
+  text-decoration: none;
+  display: block;
+}
+
+body > header img.logo {
+  margin: 10px 30px;
+}
+
+body > header h1 {
+  font-size: 3em;
+  vertical-align: middle;
+  display: inline;
+}
+
 .container h1 {
   font-size: 1.9em;
 }

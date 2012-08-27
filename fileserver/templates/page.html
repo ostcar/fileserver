@@ -1,20 +1,77 @@
 {% extends 'base.html' %}
 {% load url from future %}
+{% load i18n %}
 
 {% block body %}
 <div class="container">
   <h1>{% block headline %}{% endblock %}</h1>
+  {% if need_password %}
+    <ul class="nav pull-right">
+    {% if not loged_in %}
+      <li><a href="{% url 'fileserver_login' %}"><i class="icon-signin"></i> {% trans 'Login' %}</a></li>
+    {% else %}
+      <li><a href="{% url 'fileserver_logout' %}"><i class="icon-signout"></i>{% trans 'Logout' %}</a></li>
+    {% endif %}
+    </ul>
+  {% endif %}
   <hr>
   {% if path %}
-  <ul class="breadcrumb">
-  {% for directory, name in path %}
-    <li>
-      <a href="{% url 'fileserver_directory' directory %}">{{ name }}</a>
-      <span class="divider">/</span>
-    </li>
-  {% endfor %}
-  </ul>
+    <ul class="breadcrumb">
+    {% for directory, name in path %}
+      <li>
+        <a href="{% url 'fileserver_directory' directory %}">{{ name }}</a>
+        <span class="divider">/</span>
+      </li>
+    {% endfor %}
+    </ul>
+    <ul class="nav nav-tabs">
+      {% url 'fileserver_directory' full_path as url %}
+      <li{% if request.path == url %} class="active"{% endif %}>
+        <a href="{{ url }}">
+          {% trans 'Browse' %}
+        </a>
+      </li>
+
+      {% url 'fileserver_upload' full_path as url %}
+      <li{% if request.path == url %} class="active"{% endif %}>
+        <a href="{{ url }}">
+          <i class="icon-share-alt"></i> {% trans 'Upload' %}
+        </a>
+      </li>
+
+      {% url 'fileserver_mkdir' full_path as url %}
+      <li{% if request.path == url %} class="active"{% endif %}>
+        <a href="{{ url }}">
+          <i class="icon-folder-open"></i> {% trans 'Create Directory' %}
+        </a>
+      </li>
+      {% if not directory.is_empty %}
+        {% if is_admin %}
+          {% url 'fileserver_edit_directory' full_path as url %}
+          <li{% if request.path == url %} class="active"{% endif %}>
+            <a href="{{ url }}">
+              <i class="icon-wrench"></i> {% trans 'Edit Directory' %}
+            </a>
+          </li>
+        {% endif %}
+        <li>
+          <a href="{% url 'fileserver_zip' full_path %}" class="btn">
+            <i class="icon-download-alt"></i> {% trans 'Download Directory' %}
+          </a>
+        </li>
+      {% endif %}
+    </ul>
   {% endif %}
+  <div class="container">
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">
+          <button class="close" data-dismiss="alert">&times;</button>
+          {{ message }}
+        </div>
+      {% endfor %}
+    {% endif %}
+  </div>
   {% block content %}{% endblock content %}
 </div>
 {% endblock body %}
