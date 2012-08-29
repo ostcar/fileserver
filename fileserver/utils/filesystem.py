@@ -81,9 +81,8 @@ class Directory(object):
 
     def iter_subdirectories(self):
         for subdirectory, item_count in self.subdirectories:
-            subdirectory_url = reverse('fileserver_directory', args=[
-               encode_url(os.path.join(self.path, subdirectory))])
-            yield (subdirectory, subdirectory_url, item_count)
+            path = encode_url(os.path.join(self.path, subdirectory))
+            yield (subdirectory, path, item_count)
 
     def iter_files(self):
         for file, size in self.files:

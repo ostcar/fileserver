@@ -17,12 +17,17 @@
     <th width="85%"><a href="{{ name_url }}">{% trans 'Name' %}</a></th>
     <th><a href="{{ size_url }}">{% trans 'Size' %}</a></th>
   </tr>
-  {% for subdirectory, url, items in directory.iter_subdirectories %}
+  {% for subdirectory, path, items in directory.iter_subdirectories %}
   <tr>
     <td>
-      <a href="{{ url }}">
+      <a href="{% url 'fileserver_directory' path %}">
         <i class="icon-folder-close"></i>{{ subdirectory }}
       </a>
+      {% if items %}
+        <a class="pull-right" href="{% url 'fileserver_zip' path %}">
+          <i class="icon-download-alt"></i>
+        </a>
+      {% endif %}
     </td>
     <td>{{ items }}</td>
   </tr>
