@@ -16,6 +16,7 @@
   {% endif %}
   <hr>
   {% if path %}
+    {% include 'fileserver/tabs.html' %}
     <ul class="breadcrumb">
     {% for directory, name in path %}
       <li>
@@ -23,43 +24,6 @@
         <span class="divider">/</span>
       </li>
     {% endfor %}
-    </ul>
-    <ul class="nav nav-tabs">
-      {% url 'fileserver_directory' full_path as url %}
-      <li{% if request.path == url %} class="active"{% endif %}>
-        <a href="{{ url }}">
-          {% trans 'Browse' %}
-        </a>
-      </li>
-
-      {% url 'fileserver_upload' full_path as url %}
-      <li{% if request.path == url %} class="active"{% endif %}>
-        <a href="{{ url }}">
-          <i class="icon-share-alt"></i> {% trans 'Upload' %}
-        </a>
-      </li>
-
-      {% url 'fileserver_mkdir' full_path as url %}
-      <li{% if request.path == url %} class="active"{% endif %}>
-        <a href="{{ url }}">
-          <i class="icon-folder-open"></i> {% trans 'Create Directory' %}
-        </a>
-      </li>
-      {% if not directory.is_empty %}
-        {% if is_admin %}
-          {% url 'fileserver_edit_directory' full_path as url %}
-          <li{% if request.path == url %} class="active"{% endif %}>
-            <a href="{{ url }}">
-              <i class="icon-wrench"></i> {% trans 'Edit Directory' %}
-            </a>
-          </li>
-        {% endif %}
-        <li>
-          <a href="{% url 'fileserver_zip' full_path %}" class="btn">
-            <i class="icon-download-alt"></i> {% trans 'Download Directory' %}
-          </a>
-        </li>
-      {% endif %}
     </ul>
   {% endif %}
   <div class="container">
