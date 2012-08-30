@@ -63,11 +63,11 @@ class LogoutView(RedirectView):
 logout = LogoutView.as_view()
 
 
-class DirectoryView(SetPathMixin, LogedInMixin, TemplateView):
-    template_name = 'fileserver/directory.html'
+class BrowseView(SetPathMixin, LogedInMixin, TemplateView):
+    template_name = 'fileserver/browse.html'
 
     def get_context_data(self, **kwargs):
-        context = super(DirectoryView, self).get_context_data(**kwargs)
+        context = super(BrowseView, self).get_context_data(**kwargs)
         path = self.get_path()
         sort = self.request.GET.get('sort', self.request.session.get('sort', 'name'))
         reverse = self.request.GET.get(
@@ -88,7 +88,7 @@ class DirectoryView(SetPathMixin, LogedInMixin, TemplateView):
         return context
 
 
-serve_directory = DirectoryView.as_view()
+browse = BrowseView.as_view()
 
 
 class CreateSubdirectoryView(SetPathMixin, LogedInMixin, FormView):
@@ -105,7 +105,7 @@ class CreateSubdirectoryView(SetPathMixin, LogedInMixin, FormView):
         return super(CreateSubdirectoryView, self).form_valid(form)
 
     def get_success_url(self):
-        return reverse('fileserver_directory', args=[self.get_path()])
+        return reverse('fileserver_browse', args=[self.get_path()])
 
 
 mkdir = CreateSubdirectoryView.as_view()
@@ -161,7 +161,7 @@ class UploadView(SetPathMixin, LogedInMixin, FormSetView):
         return super(UploadView, self).get(request, *args, **kwargs)
 
     def get_success_url(self):
-        return reverse('fileserver_directory', args=[self.get_path()])
+        return reverse('fileserver_browse', args=[self.get_path()])
 
     def formset_valid(self, formset):
         path = self.get_path()
@@ -199,7 +199,7 @@ class UpdateDirectoryView(SetPathMixin, LogedInMixin, FormSetView):
         return super(UpdateDirectoryView, self).get(request, *args, **kwargs)
 
     def get_success_url(self):
-        return reverse('fileserver_directory', args=[self.get_path()])
+        return reverse('fileserver_browse', args=[self.get_path()])
 
     def formset_valid(self, formset):
         path = self.get_path()

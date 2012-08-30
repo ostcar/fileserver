@@ -1,7 +1,7 @@
 {% load url from future %}
 {% load i18n %}
 <ul class="nav nav-tabs">
-  {% url 'fileserver_directory' full_path as url %}
+  {% url 'fileserver_browse' full_path as url %}
   <li{% if request.path == url %} class="active"{% endif %}>
     <a href="{{ url }}">
       {% trans 'Browse' %}

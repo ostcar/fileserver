@@ -34,7 +34,7 @@ class TestFileserverViews(SimpleTestCase):
                          'http://testserver/')
 
     def test_directory(self):
-        response = self.c.get('/index/')
+        response = self.c.get('/browse/')
         self.assertEqual(response.status_code, 200)
         directory = Directory('')
         self.assertEqual(response.context['directory'].path, directory.path)

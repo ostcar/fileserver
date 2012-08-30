@@ -20,7 +20,7 @@
   {% for subdirectory, path, items in directory.iter_subdirectories %}
   <tr>
     <td>
-      <a href="{% url 'fileserver_directory' path %}">
+      <a href="{% url 'fileserver_browse' path %}">
         <i class="icon-folder-close"></i>{{ subdirectory }}
       </a>
       {% if items %}
