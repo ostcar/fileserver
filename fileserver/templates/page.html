@@ -8,9 +8,9 @@
   {% if need_password %}
     <ul class="nav pull-right">
     {% if not loged_in %}
-      <li><a href="{% url 'fileserver_login' %}"><i class="icon-signin"></i> {% trans 'Login' %}</a></li>
+      <li><a href="{% url 'fileserver_login' %}"><i class="icon-lock"></i> {% trans 'Login' %}</a></li>
     {% else %}
-      <li><a href="{% url 'fileserver_logout' %}"><i class="icon-signout"></i>{% trans 'Logout' %}</a></li>
+      <li><a href="{% url 'fileserver_logout' %}"><i class="icon-off"></i> {% trans 'Logout' %}</a></li>
     {% endif %}
     </ul>
   {% endif %}

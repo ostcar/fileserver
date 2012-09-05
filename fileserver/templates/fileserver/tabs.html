@@ -4,7 +4,7 @@
   {% url 'fileserver_browse' full_path as url %}
   <li{% if request.path == url %} class="active"{% endif %}>
     <a href="{{ url }}">
-      {% trans 'Browse' %}
+      <i class="icon-list"></i> {% trans 'Browse' %}
     </a>
   </li>
 
