@@ -1,5 +1,4 @@
 from django.core.files.uploadedfile import SimpleUploadedFile
-from django.core.files.base import ContentFile
 from django.test import SimpleTestCase
 from django.test.client import Client
 from django.test.utils import override_settings
@@ -8,9 +7,11 @@ from django.core.files.storage import default_storage
 from ..utils.filesystem import Directory
 
 
+
 class TestFileserverViews(SimpleTestCase):
     def setUp(self):
         self.c = Client()
+        default_storage.save('test_file1.txt', 'The first test file.\n')
 
     def test_front_page(self):
         response = self.c.get('/')
@@ -51,9 +52,9 @@ class TestFileserverViews(SimpleTestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.content, 'The first test file.\n')
 
-    def test_zip_directory(self):
-        response = self.c.get('/zip/')
-        self.assertEqual(response.status_code, 200)
+    ## def test_zip_directory(self):
+        ## response = self.c.get('/zip/')
+        ## self.assertEqual(response.status_code, 200)
 
     def test_upload(self):
         new_file = SimpleUploadedFile('new_file', 'content')
@@ -66,8 +67,7 @@ class TestFileserverViews(SimpleTestCase):
         default_storage.delete('new_file')
 
     def test_update_directory(self):
-        test_file2 = ContentFile('content\n')
-        default_storage.save('test_file2', test_file2)
+        default_storage.save('test_file2', 'content\n')
         default_storage.mkdir('test_dir')
         response = self.c.post('/edit/',
                                {'form-TOTAL_FORMS': 3,
@@ -89,8 +89,7 @@ class TestFileserverViews(SimpleTestCase):
 
     def test_not_empty_directory(self):
         default_storage.mkdir('not_empty_dir')
-        test_file2 = ContentFile('content\n')
-        default_storage.save('not_empty_dir/test_file2', test_file2)
+        default_storage.save('not_empty_dir/test_file2', 'content\n')
         response = self.c.post('/edit/',
                                {'form-TOTAL_FORMS': 1,
                                 'form-INITIAL_FORMS': 1,
@@ -99,9 +98,6 @@ class TestFileserverViews(SimpleTestCase):
                                 'form-0-DELETE': True})
         self.assertEqual(response.status_code, 302)
         self.assertFalse(default_storage.exists('not_empty_dir'))
-
-
-
 
     def test_todo(self):
         response = self.c.get('/todo/')
@@ -117,6 +113,3 @@ class TestFileserverViews(SimpleTestCase):
         self.assertEqual(response.context['form']['todo'].value(), 'new_content\n')
 
         default_storage.delete('todo.txt')
-
-
-

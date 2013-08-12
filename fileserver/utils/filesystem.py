@@ -20,18 +20,22 @@ extensions_map.update({
 
 
 class FileServerStorage(FileSystemStorage):
+    # Use self.os and self.shutil for easier testing.
+    os = os
+    shutil = shutil
+
     def mkdir(self, path):
-        os.mkdir(self.path(path))
+        self.os.mkdir(self.path(path))
 
     def mv(self, old_path, new_path):
         new_path = self.get_available_name(new_path)
-        os.rename(self.path(old_path), self.path(new_path))
+        self.os.rename(self.path(old_path), self.path(new_path))
 
     def delete(self, name):
-        if os.path.isdir(self.path(name)):
-            shutil.rmtree(self.path(name))
+        if self.os.path.isdir(self.path(name)):
+            self.shutil.rmtree(self.path(name))
         else:
-            os.remove(self.path(name))
+            self.os.remove(self.path(name))
 
     # From http://stackoverflow.com/a/296722
     def zipdir(self, basedir, archivename, include_hidden=False):
