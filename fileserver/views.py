@@ -22,13 +22,6 @@ from .forms import (LoginForm, UploadForm, CreateSubdirectoryForm, TodoForm,
     UpdateDirectoryForm)
 
 
-class FrontpageView(LogedInMixin, TemplateView):
-    template_name = 'fileserver/frontpage.html'
-    need_login = False
-
-frontpage = FrontpageView.as_view()
-
-
 class LoginView(FormView):
     form_class = LoginForm
     template_name = 'fileserver/login.html'
@@ -50,7 +43,7 @@ login = LoginView.as_view()
 
 
 class LogoutView(RedirectView):
-    url = reverse_lazy('fileserver_frontpage')
+    url = reverse_lazy('fileserver_browse', args=[''])
     permanent = False
 
     def get(self, request, *args, **kwargs):
