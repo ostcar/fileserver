@@ -96,7 +96,6 @@ class CreateSubdirectoryView(SetPathMixin, LogedInMixin, FormView):
     def get_success_url(self):
         return reverse('fileserver_browse', args=[self.get_path()])
 
-
 mkdir = CreateSubdirectoryView.as_view()
 
 
