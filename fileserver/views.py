@@ -151,7 +151,7 @@ class UploadView(SetPathMixin, LogedInMixin, FormView):
     def form_valid(self, form):
         path = self.get_path()
         for file in form.files.getlist('file'):
-            default_storage.save(file.name, file)
+            default_storage.save(os.path.join(path, file.name), file)
         return super(UploadView, self).form_valid(form)
 
 upload = UploadView.as_view()
