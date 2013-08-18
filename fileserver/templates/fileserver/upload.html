@@ -7,15 +7,7 @@
 <p>{% trans 'Select one or more files:' %}</p>
 <form enctype="multipart/form-data" action="" method="post">
   {% csrf_token %}
-  {{ formset.management_form }}
-  {% for form in formset %}
-    <p>{{ form.file }}</p>
-  {% endfor %}
-  <div class="container">
-    <a id="add_more" class="btn btn-block" >
-      <i class="icon-plus"></i> {% trans 'Add Upload Field' %}
-    </a>
-  </div>
+    <input id="id_file" type="file" name="file" multiple="1">
   <div class="form-actions">
     <button class="btn btn-primary" type="submit">{% trans 'Upload' %}</button>
   </div>

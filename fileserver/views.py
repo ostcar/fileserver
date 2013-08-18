@@ -26,7 +26,6 @@ class FrontpageView(LogedInMixin, TemplateView):
     template_name = 'fileserver/frontpage.html'
     need_login = False
 
-
 frontpage = FrontpageView.as_view()
 
 
@@ -47,7 +46,6 @@ class LoginView(FormView):
         self.request.session['loged_in'] = True
         return super(LoginView, self).form_valid(form)
 
-
 login = LoginView.as_view()
 
 
@@ -58,7 +56,6 @@ class LogoutView(RedirectView):
     def get(self, request, *args, **kwargs):
         request.session.flush()
         return super(LogoutView, self).get(request, *args, **kwargs)
-
 
 logout = LogoutView.as_view()
 
@@ -86,7 +83,6 @@ class BrowseView(SetPathMixin, LogedInMixin, TemplateView):
         key = {'name': 'name_url', 'size': 'size_url'}[sort]
         context[key] += "&reverse=%s" % reverse
         return context
-
 
 browse = BrowseView.as_view()
 
@@ -124,7 +120,6 @@ class DownloadView(SetPathMixin, LogedInMixin, View):
         response['Content-Length'] = default_storage.size(path)
         return response
 
-
 download = DownloadView.as_view()
 
 
@@ -147,14 +142,12 @@ class ZipDirectoryView(SetPathMixin, LogedInMixin, View):
         response['Content-Length'] = file_size
         return response
 
-
 zip_directory = ZipDirectoryView.as_view()
 
 
-class UploadView(SetPathMixin, LogedInMixin, FormSetView):
+class UploadView(SetPathMixin, LogedInMixin, FormView):
     form_class = UploadForm
     template_name = 'fileserver/upload.html'
-    extra = 3
 
     def get(self, request, *args, **kwargs):
         messages.warning(self.request, _('Do not reload this page!'))
@@ -163,14 +156,11 @@ class UploadView(SetPathMixin, LogedInMixin, FormSetView):
     def get_success_url(self):
         return reverse('fileserver_browse', args=[self.get_path()])
 
-    def formset_valid(self, formset):
+    def form_valid(self, form):
         path = self.get_path()
-        for form in formset:
-            if 'file' in form.cleaned_data:
-                file_name = os.path.join(path, form.cleaned_data['file'].name)
-                default_storage.save(file_name, form.cleaned_data['file'])
-        return super(UploadView, self).formset_valid(formset)
-
+        for file in form.files.getlist('file'):
+            default_storage.save(file.name, file)
+        return super(UploadView, self).form_valid(form)
 
 upload = UploadView.as_view()
 
@@ -219,7 +209,6 @@ class UpdateDirectoryView(SetPathMixin, LogedInMixin, FormSetView):
 
         return super(UpdateDirectoryView, self).formset_valid(formset)
 
-
 edit_directory = UpdateDirectoryView.as_view()
 
 
@@ -243,6 +232,4 @@ class TodoView(LogedInMixin, FormView):
         else:
             return {'todo': '', 'old_hash': hash('')}
 
-
 todo = TodoView.as_view()
-

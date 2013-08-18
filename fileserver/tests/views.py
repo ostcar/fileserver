@@ -59,9 +59,7 @@ class TestFileserverViews(SimpleTestCase):
     def test_upload(self):
         new_file = SimpleUploadedFile('new_file', 'content')
         response = self.c.post('/upload/',
-                               {'form-TOTAL_FORMS':1,
-                                'form-INITIAL_FORMS': 0,
-                                'form-0-file': new_file})
+                               {'file': new_file})
         self.assertEqual(response.status_code, 302)
         self.assertTrue(default_storage.exists('new_file'))
         default_storage.delete('new_file')
