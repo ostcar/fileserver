@@ -22,13 +22,6 @@ from .forms import (LoginForm, UploadForm, CreateSubdirectoryForm, TodoForm,
     UpdateDirectoryForm)
 
 
-class FrontpageView(LogedInMixin, TemplateView):
-    template_name = 'fileserver/frontpage.html'
-    need_login = False
-
-frontpage = FrontpageView.as_view()
-
-
 class LoginView(FormView):
     form_class = LoginForm
     template_name = 'fileserver/login.html'
@@ -50,7 +43,7 @@ login = LoginView.as_view()
 
 
 class LogoutView(RedirectView):
-    url = reverse_lazy('fileserver_frontpage')
+    url = reverse_lazy('fileserver_browse', args=[''])
     permanent = False
 
     def get(self, request, *args, **kwargs):
@@ -102,7 +95,6 @@ class CreateSubdirectoryView(SetPathMixin, LogedInMixin, FormView):
 
     def get_success_url(self):
         return reverse('fileserver_browse', args=[self.get_path()])
-
 
 mkdir = CreateSubdirectoryView.as_view()
 
@@ -159,7 +151,7 @@ class UploadView(SetPathMixin, LogedInMixin, FormView):
     def form_valid(self, form):
         path = self.get_path()
         for file in form.files.getlist('file'):
-            default_storage.save(file.name, file)
+            default_storage.save(os.path.join(path, file.name), file)
         return super(UploadView, self).form_valid(form)
 
 upload = UploadView.as_view()

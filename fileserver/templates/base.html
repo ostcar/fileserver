@@ -12,17 +12,13 @@
   </head>
   <body>
     <header>
-      <a href="{% url 'fileserver_frontpage' %}">
+      <a href="{% url 'fileserver_browse' '/' %}">
         <img class="logo" src="{% static 'fileserver/img/logo.png' %}" alt="" width=80px>
         <h1>Fileserver</h1>
       </a>
     </header>
     {% block body %}
     {% endblock body %}
-    <div class="container">
-      <hr>
-      <footer>&copy; 2012 by ostcar and ikarus</footer>
-    </div>
     {% block scripts %}
       <script type="text/javascript" src="{% static 'fileserver/js/jquery-1.8.0.min.js' %}"></script>
       <script type="text/javascript" src="{% static 'fileserver/js/bootstrap.min.js' %}"></script>
